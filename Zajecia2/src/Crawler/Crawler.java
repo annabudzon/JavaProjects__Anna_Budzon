@@ -33,6 +33,7 @@ public Crawler() throws com.sun.xml.internal.messaging.saaj.packaging.mime.Messa
     loggers = new Logger[] { new ConsoleLogger(), new MailLogger()/*, new GUILogger()*/ };
             
     resultStudents = new ArrayList<>();
+    previousStudents = new ArrayList<>();
     //adress = "D:\\Materiały\\SEMESTR 4\\Java - G. Górecki\\Zajęcia 3\\LAB03-scratch\\src\\example\\students.txt";
    //adress = "D:\\students.txt";
 }
@@ -63,8 +64,8 @@ public void notifyAdded(List<Student> previousStudents,List<Student> resultStude
             }
         }
     }else{
-        List<Student> tmp  = resultStudents;
-        List<Student> tmp2 = previousStudents;
+        List<Student> tmp  = new ArrayList<>(resultStudents);
+        List<Student> tmp2 = new ArrayList<>(previousStudents); 
         tmp.removeAll(tmp2);
         ListIterator<Student> it = tmp.listIterator();
         while(it.hasNext()){
@@ -89,8 +90,9 @@ public void notifyRemoved(List<Student> previousStudents, List<Student> resultSt
             }
         }
     }else{
-        List<Student> tmp  = previousStudents;
-        List<Student> tmp2 = resultStudents;
+        List<Student> tmp  = new ArrayList<>(previousStudents);
+        List<Student> tmp2 = new ArrayList<>(resultStudents); 
+            
         tmp.removeAll(tmp2);
         ListIterator<Student> it = tmp.listIterator();
     
@@ -110,7 +112,7 @@ public void notifyRemoved(List<Student> previousStudents, List<Student> resultSt
 
 public void notifyUnchanged(){    
     for(Logger l : loggers){
-        l.log("----- UNCHANGED ----- ");
+        l.log(" ----- UNCHANGED ----- ");
     }
 }
 
