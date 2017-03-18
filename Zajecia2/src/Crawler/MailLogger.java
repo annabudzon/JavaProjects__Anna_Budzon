@@ -59,6 +59,12 @@ public class MailLogger implements Logger {
             java.util.logging.Logger.getLogger(MailLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
   }
-    @Override
-    public void log(String status, int iteracja){}
+   @Override
+   public void log(String status, int iteracja){
+       System.out.println(status+iteracja);
+   }
+   @Override
+   public void log(String status){
+    System.out.println("Status: "+status);
+   }
 }

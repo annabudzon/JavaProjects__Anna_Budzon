@@ -10,5 +10,9 @@ public class ConsoleLogger implements Logger{
    public void log(String status, int iteracja){
        System.out.println(status+iteracja);
    }
+   @Override
+   public void log(String status){
+    System.out.println("Status: "+status);
+   }
 
 }

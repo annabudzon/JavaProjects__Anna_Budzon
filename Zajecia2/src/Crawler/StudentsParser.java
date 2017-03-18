@@ -13,31 +13,31 @@ import java.util.List;
 
 public class StudentsParser 
 {
-	public static List<Student> parse( File file, Crawler cr ) throws IOException
+	public static List<Student> parse( File file) throws IOException
 	{
 		try( InputStream stream = new FileInputStream( file ) )
 		{
-			return parse( stream, cr );
+			return parse(stream);
 		}
 	}
 	
-	public static List<Student> parse( URL url , Crawler cr) throws IOException
+	public static List<Student> parse( URL url) throws IOException
 	{
 		try( InputStream stream = url.openStream() )
 		{
-			return parse( stream , cr);
+			return parse(stream);
 		}
 	}
 	
-	public static List<Student> parse( InputStream stream, Crawler cr ) throws IOException
+	public static List<Student> parse( InputStream stream) throws IOException
 	{
 		try( InputStreamReader reader = new InputStreamReader( stream ) )
 		{
-			return parse( reader, cr );
+			return parse(reader);
 		}
 	}
 	
-	public static List<Student> parse( InputStreamReader reader, Crawler cr ) throws IOException
+	public static List<Student> parse( InputStreamReader reader) throws IOException
 	{
 		List<Student> result = new ArrayList<>();
 		
@@ -56,9 +56,8 @@ public class StudentsParser
 					continue;
 				
                                 result.add(student);
-                                cr.powiadom_dodano(student);
+                                
 			}
-			cr.i++;
 		}
 		
 		return result;

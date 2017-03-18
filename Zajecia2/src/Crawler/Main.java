@@ -13,7 +13,8 @@ public class Main
 	{       
             try {
                 Crawler cr = new Crawler();
-                //cr.setAdress(getUserInput());
+                System.out.println("Podaj adres pliku, zawierajacego dane studentow: ");
+                cr.setAdress(getUserInput());
                 cr.run();
             } catch (MessagingException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);

@@ -12,6 +12,7 @@ import java.util.*;
 public class Crawler {
 private final Logger[] loggers;
 private List<Student> resultStudents;
+private List<Student> previousStudents;
 private String adress;
 static int i = 0;
 public enum OrderMode
@@ -29,12 +30,12 @@ MIN
     
     
 public Crawler() throws com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException{
-    loggers = new Logger[] { new ConsoleLogger(), new MailLogger() };
+    loggers = new Logger[] { new ConsoleLogger(), new MailLogger()/*, new GUILogger()*/ };
             
     resultStudents = new ArrayList<>();
-    adress = "D:\\Materiały\\SEMESTR 4\\Java - G. Górecki\\Zajęcia 3\\LAB03-scratch\\src\\example\\students.txt";
+    //adress = "D:\\Materiały\\SEMESTR 4\\Java - G. Górecki\\Zajęcia 3\\LAB03-scratch\\src\\example\\students.txt";
+   //adress = "D:\\students.txt";
 }
-
 public void setAdress(String adress){
    this.adress = adress;
 }
@@ -53,20 +54,69 @@ public void usunObserwatora(Logger log){
 }
 */
  
-public void powiadom_dodano(Student student){
-    for(Logger l : loggers){
-        l.log("ADDED: ", student);
+public void notifyAdded(List<Student> previousStudents,List<Student> resultStudents){
+    Student student;
+    if(previousStudents == null){
+        for(Logger l : loggers){
+            for(Student s : resultStudents){
+                l.log("----- ADDED: ", s);
+            }
+        }
+    }else{
+        List<Student> tmp  = resultStudents;
+        List<Student> tmp2 = previousStudents;
+        tmp.removeAll(tmp2);
+        ListIterator<Student> it = tmp.listIterator();
+        while(it.hasNext()){
+            student = it.next();
+            for(Logger l : loggers){
+              l.log("----- ADDED: ", student);
+            }
+        }
     }
+    
+    notifyIteration();
+    System.out.println("Zakres wieku: <"+extractAge(resultStudents, MIN)+","+extractAge(resultStudents,MAX)+">\n");
+    System.out.println("Zakres ocen: <"+extractMark(resultStudents, MIN)+","+extractMark(resultStudents,MAX)+">");
+    extractStudents(resultStudents,MARK);
 }
-public void powiadom_usunieto(Student student){
+public void notifyRemoved(List<Student> previousStudents, List<Student> resultStudents){
+   Student student;
+   if(resultStudents == null){
+        for(Logger l : loggers){
+            for(Student s : previousStudents){
+                l.log("----- REMOVED: ", s);
+            }
+        }
+    }else{
+        List<Student> tmp  = previousStudents;
+        List<Student> tmp2 = resultStudents;
+        tmp.removeAll(tmp2);
+        ListIterator<Student> it = tmp.listIterator();
+    
+        while(it.hasNext()){
+            student = it.next();
+            for(Logger l : loggers){
+             l.log("----- REMOVED: ", student);
+            }
+        }
+   }
+    
+    notifyIteration();
+    System.out.println("Zakres wieku: <"+extractAge(resultStudents, MIN)+","+extractAge(resultStudents,MAX)+">\n");
+    System.out.println("Zakres ocen: <"+extractMark(resultStudents, MIN)+","+extractMark(resultStudents,MAX)+">");
+    extractStudents(resultStudents,MARK);
+}
+
+public void notifyUnchanged(){    
     for(Logger l : loggers){
-        l.log("REMOVED: ", student);
+        l.log("----- UNCHANGED ----- ");
     }
 }
 
-public void powiadom_iteracja(){
+public void notifyIteration(){
     for(Logger l : loggers){
-        l.log("Iteracja: ", i);
+        l.log("------ ITERATION: ", i);
     }
 }
         
@@ -78,26 +128,6 @@ public void print(List<Student> students){
     for(Student s : students){
         System.out.println( s.getMark() + " " + s.getFirstName() + " " + s.getLastName() + " " + s.getAge() );
     } 
-    i++;
-}
-public List<Student> addStudent(List<Student> students, Student s){
-    if (students.contains(s)) {
-        System.out.println("\nStudent już istnieje.");
-    } else {
-        students.add(s);
-        powiadom_dodano(s);
-    }
-    return students;
-}
-public List<Student> removeStudent(List<Student> students, int idx){
-    if(idx < students.size()){
-        students.remove(idx);
-        powiadom_usunieto(students.get(idx));
-    }
-    else{
-        throw new IndexOutOfBoundsException("Index poza zakresem!");
-    }
-    return students;
 }
 
 List<Student> extractStudents( List<Student> students, OrderMode mode ){// posortowani studenci 
@@ -165,23 +195,29 @@ public void run() throws IOException, MyException{
         if(f == null){
             throw new MyException();
         }
-        resultStudents = StudentsParser.parse( f, this );
-        powiadom_iteracja();
-        System.out.println("Zakres wieku: <"+extractAge(resultStudents, MIN)+","+extractAge(resultStudents,MAX)+">\n");
-        System.out.println("Zakres ocen: <"+extractMark(resultStudents, MIN)+","+extractMark(resultStudents,MAX)+">");
-        extractStudents(resultStudents,MARK);
-        Student s = new Student();
-        addStudent(resultStudents, s);
-        powiadom_iteracja();
-        System.out.println("Zakres wieku: <"+extractAge(resultStudents, MIN)+","+extractAge(resultStudents,MAX)+">\n");
-        System.out.println("Zakres ocen: <"+extractMark(resultStudents, MIN)+","+extractMark(resultStudents,MAX)+">");
-       extractStudents(resultStudents,MARK);
-        removeStudent(resultStudents, 3);
-        powiadom_iteracja();
-        System.out.println("Zakres wieku: <"+extractAge(resultStudents, MIN)+","+extractAge(resultStudents,MAX)+">\n");
-        System.out.println("Zakres ocen: <"+extractMark(resultStudents, MIN)+","+extractMark(resultStudents,MAX)+">");
-        extractStudents(resultStudents,MARK);
-        
+       resultStudents = StudentsParser.parse(f);
+       i++; //iteracja pętli
+              
+       if(previousStudents == null){ //jeśli i = 1
+           if(!resultStudents.isEmpty()){
+                notifyAdded(previousStudents, resultStudents);
+           }
+       }
+       else if(previousStudents.size() > resultStudents.size()){
+           //usunięto
+           notifyRemoved(previousStudents, resultStudents);
+       }
+       else if(previousStudents.size() < resultStudents.size()){
+           //dodano
+           notifyAdded(previousStudents, resultStudents);
+        }
+       else{
+            // nie zmodyfikowano  
+            notifyUnchanged();
+       }
+       
+       previousStudents = resultStudents;
+       
         try {
             Thread.sleep(10000);
          } catch (Exception e) {
