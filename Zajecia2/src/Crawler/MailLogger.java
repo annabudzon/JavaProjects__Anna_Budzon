@@ -22,7 +22,7 @@ public class MailLogger implements Logger {
             Properties props = new Properties();
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.starttls.enable", "true");
-            
+          
             props.put("mail.smtp.host", "smtp.gmail.com");
             props.put("mail.smtp.port", "465");
             props.put("mail.smtp.quitwait","false");
@@ -40,7 +40,7 @@ public class MailLogger implements Logger {
                 return new PasswordAuthentication(username, password);
                 }
         });
-    session.setDebug(true);
+    session.setDebug(false);
     try {
 
         Message message = new MimeMessage(session);

@@ -32,7 +32,7 @@ MIN
 public Crawler() throws com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException{
     loggers = new Logger[] { new ConsoleLogger(), new MailLogger()/*, new GUILogger()*/ };
             
-    resultStudents = new ArrayList<>();
+    //resultStudents = new ArrayList<>();
     previousStudents = new ArrayList<>();
     //adress = "D:\\Materiały\\SEMESTR 4\\Java - G. Górecki\\Zajęcia 3\\LAB03-scratch\\src\\example\\students.txt";
    //adress = "D:\\students.txt";
@@ -197,6 +197,7 @@ public void run() throws IOException, MyException{
         if(f == null){
             throw new MyException();
         }
+       resultStudents = new ArrayList<>();
        resultStudents = StudentsParser.parse(f);
        i++; //iteracja pętli
               
