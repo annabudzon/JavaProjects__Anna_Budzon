@@ -55,7 +55,7 @@ public void usunObserwatora(Logger log){
 }
 */
  
-public void notifyAdded(List<Student> previousStudents,List<Student> resultStudents){
+public void notifyAdded(List<Student> previousStudents,List<Student> resultStudents){ //powiadomienie o dodaniu studenta
     Student student;
     if(previousStudents == null){
         for(Logger l : loggers){
@@ -81,7 +81,7 @@ public void notifyAdded(List<Student> previousStudents,List<Student> resultStude
     System.out.println("Zakres ocen: <"+extractMark(resultStudents, MIN)+","+extractMark(resultStudents,MAX)+">");
     extractStudents(resultStudents,MARK);
 }
-public void notifyRemoved(List<Student> previousStudents, List<Student> resultStudents){
+public void notifyRemoved(List<Student> previousStudents, List<Student> resultStudents){ // powiadomienie o usunieciu studenta
    Student student;
    if(resultStudents == null){
         for(Logger l : loggers){
@@ -110,13 +110,13 @@ public void notifyRemoved(List<Student> previousStudents, List<Student> resultSt
     extractStudents(resultStudents,MARK);
 }
 
-public void notifyUnchanged(){    
+public void notifyUnchanged(){    // powiadomienie o braku zmian
     for(Logger l : loggers){
         l.log(" ----- UNCHANGED ----- ");
     }
 }
 
-public void notifyIteration(){
+public void notifyIteration(){ //powiadomienie o iteracji
     for(Logger l : loggers){
         l.log("------ ITERATION: ", i);
     }
@@ -126,7 +126,7 @@ public List<Student> getResults(){
     return resultStudents;
 }
 
-public void print(List<Student> students){
+public void print(List<Student> students){ //wyświetlanie
     for(Student s : students){
         System.out.println( s.getMark() + " " + s.getFirstName() + " " + s.getLastName() + " " + s.getAge() );
     } 
