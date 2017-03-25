@@ -1,28 +1,36 @@
 package Crawler;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import java.io.IOException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
-public class Main 
-{
+public class Main extends Application {
+
+    public static Logger[] loggers = new Logger[]{ 
+      new GUILogger(),
+      new ConsoleLogger(), 
+      //new MailLogger()
+    };
     
-	public static void main( String[] args ) throws IOException, MyException  
-	{       
-            try {
-                Crawler cr = new Crawler();
-                System.out.println("Podaj adres pliku, zawierajacego dane studentow: ");
-                cr.setAdress(getUserInput());
-                cr.run();
-            } catch (MessagingException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }     
-        }
-        
-        public static String getUserInput() {
-            Scanner odczyt = new Scanner(System.in);
-            return odczyt.nextLine();
-        } 
+    Stage window;
+    
+    public static void main(String[] args) throws IOException, MyException {
+        launch(args);
+        //Crawler cr = new Crawler();
+        //System.out.println("Podaj adres pliku, zawierajacego dane studentow: ");
+        //cr.setAdress(getUserInput());
+        //cr.run();
+    }
+
+    public static String getUserInput() {
+        Scanner odczyt = new Scanner(System.in);
+        return odczyt.nextLine();
+    }
+    @Override
+    public void start(Stage primaryStage) {
+        MyStage.goApp(primaryStage);
+    }
 }
+    
+

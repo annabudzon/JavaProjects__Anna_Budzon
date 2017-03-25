@@ -1,7 +1,8 @@
 package Crawler;
 
 public class ConsoleLogger implements Logger{
-   public ConsoleLogger(){}
+     public ConsoleLogger() {}
+
    @Override
    public void log( String status, Student student){
        System.out.println(status+student);

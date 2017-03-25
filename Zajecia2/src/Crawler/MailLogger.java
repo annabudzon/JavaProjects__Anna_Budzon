@@ -1,6 +1,5 @@
 package Crawler;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import java.util.*;
 import java.util.logging.Level;
 import javax.mail.Message;
@@ -12,7 +11,8 @@ import javax.mail.internet.MimeMessage;
 
 
 public class MailLogger implements Logger {
-    public MailLogger() throws MessagingException {}
+    
+    public MailLogger() {}
     @Override
     public void log( String status, Student student){
      String to = "aniabudzon@gmail.com";
