@@ -11,9 +11,9 @@ import java.util.*;
 
 public class Crawler {
 
-private List<Student> resultStudents;
-private List<Student> previousStudents;
-private String adress;
+private static List<Student> resultStudents;
+private static List<Student> previousStudents;
+public static String adress = "D:\\students.txt";
 static int i = 0;
 public enum OrderMode
 {
@@ -28,32 +28,12 @@ MAX,
 MIN
 }
     
-    
 public Crawler() {
-    
     previousStudents = new ArrayList<>();
     //adress = "D:\\Materiały\\SEMESTR 4\\Java - G. Górecki\\Zajęcia 3\\LAB03-scratch\\src\\example\\students.txt";
-    adress = "D:\\students.txt";
 }
-public void setAdress(String adress){
-   this.adress = adress;
-}
-
-public String getAdress(){
-    return this.adress;
-}
-/*
-public void dodajObserwatora(Logger log){
-    obserwatorzy.add(log);
-}
- 
-public void usunObserwatora(Logger log){
-    int index = obserwatorzy.indexOf(log);
-    obserwatorzy.remove(index);
-}
-*/
          
-public List<Student> getResults(){
+public static List<Student> getResults(){
     return resultStudents;
 }
 
@@ -124,7 +104,7 @@ public static int extractAge(List<Student> students, ExtremumMode mode ){// maks
 
 public void run() throws IOException, MyException{
     while(true){
-        File f = new File( this.getAdress());
+        File f = new File(adress);
         if(f == null){
             throw new MyException();
         }

@@ -10,7 +10,7 @@ public class Main extends Application {
     public static Logger[] loggers = new Logger[]{ 
       new GUILogger(),
       new ConsoleLogger(), 
-      //new MailLogger()
+      new MailLogger()
     };
     
     Stage window;
@@ -20,7 +20,8 @@ public class Main extends Application {
         //Crawler cr = new Crawler();
         //System.out.println("Podaj adres pliku, zawierajacego dane studentow: ");
         //cr.setAdress(getUserInput());
-        //cr.run();
+       // cr.run();
+        
     }
 
     public static String getUserInput() {
@@ -28,7 +29,7 @@ public class Main extends Application {
         return odczyt.nextLine();
     }
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
         MyStage.goApp(primaryStage);
     }
 }

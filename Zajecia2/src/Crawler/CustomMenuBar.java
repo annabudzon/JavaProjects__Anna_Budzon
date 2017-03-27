@@ -21,6 +21,7 @@ public class CustomMenuBar extends MenuBar {
         menuAbout.getItems().addAll(aboutMenuItem);
         menuBar.getMenus().addAll(menuFile, menuAbout);
         
+                
         return menuBar;
     }
 }

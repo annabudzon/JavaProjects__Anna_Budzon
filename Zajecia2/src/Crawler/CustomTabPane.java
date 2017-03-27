@@ -1,29 +1,48 @@
 
 package Crawler;
 
-import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.control.Label;
+import java.io.IOException;
+import javafx.scene.chart.BarChart;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
-public class CustomTabPane extends AnchorPane {
+public class CustomTabPane {
     private static TabPane tabPane;
+    private static AnchorPane root;
+    private static VBox vBox;
+    private static TableView table;
+     private static BarChart barChart;   
     
-    public static TabPane display(){
+    public static TabPane display() throws IOException{
         tabPane = new TabPane();
+        vBox = new VBox();
         
+                
             Tab studentsTab = new Tab();
-            studentsTab.setText("Students");
+            studentsTab.setText("Students"); 
+            table = CustomTableView.display();
+            root = CustomTableView.createEdit();
+            vBox.getChildren().addAll(table,root);
+            studentsTab.setContent(vBox);
+            studentsTab.setClosable(false);
+            tabPane.getTabs().add(studentsTab);
             
+              
             Tab logTab = new Tab();
             logTab.setText("Logs");
+            logTab.setClosable(false);
+            tabPane.getTabs().add(logTab);
             
             Tab histogramTab = new Tab();
             histogramTab.setText("Histogram");
+            barChart = CustomBarChart.display();
+            histogramTab.setClosable(false);
+            histogramTab.setContent(barChart);
+            tabPane.getTabs().add(histogramTab);
             
             
             /*HBox hbox = new HBox();
@@ -31,8 +50,8 @@ public class CustomTabPane extends AnchorPane {
             hbox.setAlignment(Pos.CENTER);
             tab.setContent(hbox);*/
             
-                     
-        tabPane.getTabs().addAll(histogramTab,logTab,studentsTab);
+        tabPane.getSelectionModel().selectNext();
+        
         return tabPane;
     }
     
