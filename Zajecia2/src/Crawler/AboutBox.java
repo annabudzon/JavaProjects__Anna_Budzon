@@ -25,8 +25,7 @@ public class AboutBox {
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout);
         window.setScene(scene);
-        window.showAndWait();
-        
+        window.showAndWait();        
     }
     
 }

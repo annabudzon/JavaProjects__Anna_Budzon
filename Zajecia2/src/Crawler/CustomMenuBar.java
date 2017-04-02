@@ -10,7 +10,7 @@ public class CustomMenuBar extends MenuBar {
         menuBar = new MenuBar();
         // --- Menu File
         Menu menuFile = new Menu("File");
-        MenuItem closeMenuItem = new MenuItem("Close  Ctrl+C");
+        MenuItem closeMenuItem = new MenuItem("Close  Esc");
         closeMenuItem.setOnAction(e -> MyStage.closeProgram());
         menuFile.getItems().addAll(closeMenuItem);
  

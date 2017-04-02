@@ -4,13 +4,17 @@ import static Crawler.Crawler.adress;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 
 public class CustomBarChart extends AnchorPane {
     private static BarChart<String, Number> barChart;
@@ -24,7 +28,7 @@ public class CustomBarChart extends AnchorPane {
         barChart.setTitle("Distribution of Marks");
         xAxis.setLabel("Mark");       
         yAxis.setLabel("Count");
-        
+                
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Mark");    
         int[] markCount;
@@ -36,6 +40,25 @@ public class CustomBarChart extends AnchorPane {
             j+=0.5;
         }
        
+        Timeline tl = new Timeline();
+        tl.getKeyFrames().add(new KeyFrame(Duration.millis(500), 
+            new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                int i = 0;
+                for (XYChart.Series<String, Number> series : barChart.getData()) {
+                    for (XYChart.Data<String, Number> data : series.getData()) {
+                        int[] markCount = markCounter();                       
+                        data.setYValue(markCount[i]);
+                        i++;                            
+                        };
+                    }
+                }
+            
+        }));
+        tl.setCycleCount(Animation.INDEFINITE);
+        tl.play();
+        
         barChart.getData().add(series);
         return barChart;
     }
@@ -46,9 +69,7 @@ public class CustomBarChart extends AnchorPane {
         File f = new File(adress);
         try {
             tempStudents = StudentsParser.parse(f);
-        } catch (IOException ex) {
-            Logger.getLogger(CustomBarChart.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (IOException ex) {}
         
         for(int i = 0; i < 7; i++){
             temp[i] = 0;
@@ -71,5 +92,12 @@ public class CustomBarChart extends AnchorPane {
         }
     
         return temp;
+    }
+    
+    public static BarChart getBarChart(){
+        return barChart;
+    }
+    public static void setBarChart(BarChart bar){
+        barChart = bar;
     }
 }

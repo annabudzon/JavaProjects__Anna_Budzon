@@ -18,9 +18,9 @@ public class Student
         @Override
         public String toString(){
             String result = this.firstName;
-            result = new StringBuilder(result).append(" "+this.lastName).toString();
-            result = new StringBuilder(result).append(" "+this.mark).toString();
-            result = new StringBuilder(result).append(" "+this.age).toString();
+            result = new StringBuilder(result).append("   "+this.lastName).toString();
+            result = new StringBuilder(result).append("   "+this.mark).toString();
+            result = new StringBuilder(result).append("   "+this.age).toString();
          return result;          
             
         }

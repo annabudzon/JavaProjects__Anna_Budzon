@@ -1,5 +1,6 @@
 package Crawler;
 
+import Crawler.Crawler.STATUS;
 import java.util.*;
 import java.util.logging.Level;
 import javax.mail.Message;
@@ -14,7 +15,7 @@ public class MailLogger implements Logger {
     
     public MailLogger() {}
     @Override
-    public void log( String status, Student student){
+    public void log( STATUS status, Student student){
      String to = "aniabudzon@gmail.com";
       // String from = "java-example@gmail.com";
             final String username = "bogusjava@gmail.com";
@@ -48,7 +49,16 @@ public class MailLogger implements Logger {
         message.setRecipients(Message.RecipientType.TO,
                 InternetAddress.parse(to));
         message.setSubject("CLAWLER NOTIFICATION "+status+" person");
-        message.setText(status+student);
+        
+        switch(status){
+            case ADDED:
+                message.setText("-----ADDED: "+student);
+                break;
+            case REMOVED:
+                message.setText("-----REMOVED: "+student);
+                break;
+        }
+        
         Transport transport = session.getTransport("smtp");
         transport.send(message);
         transport.close();
@@ -60,7 +70,7 @@ public class MailLogger implements Logger {
         }
   }
    @Override
-   public void log(String status, int iteracja){}
+   public void log(STATUS status, int iteracja){}
    @Override
-   public void log(String status){}
+   public void log(STATUS status){}
 }

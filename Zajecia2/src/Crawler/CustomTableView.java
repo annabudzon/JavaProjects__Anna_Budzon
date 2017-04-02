@@ -1,12 +1,15 @@
 package Crawler;
 
 import static Crawler.Crawler.adress;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -23,59 +26,56 @@ public class CustomTableView extends AnchorPane {
     private static HBox hBox;
     private static AnchorPane root;
     
-    public static TableView display() throws IOException{
-        root = new AnchorPane();
+    public static TableView display(){
         table = new TableView();
+        table.setColumnResizePolicy((TableView.ResizeFeatures param) -> true);
         
         //Mark column
         TableColumn<Student,Double> markColumn = new TableColumn("Mark");
-        markColumn.setMinWidth(100);
         markColumn.setCellValueFactory(new PropertyValueFactory<>("mark"));
         
         //First name column
         TableColumn<Student,String> nameColumn = new TableColumn("First name");
-        nameColumn.setMinWidth(150);
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         
         //Last name column
         TableColumn<Student,String> lastNameColumn = new TableColumn("Last name");
-        lastNameColumn.setMinWidth(150);
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         
         //Age column
         TableColumn<Student,Integer> ageColumn = new TableColumn("Age");
-        ageColumn.setMinWidth(100);
         ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
         
-        
-        File f = new File(adress);
-        List<Student> tempStudents = StudentsParser.parse(f);
-        ObservableList<Student> students = FXCollections.observableArrayList(tempStudents);
-        table.setItems(students);
+        markColumn.prefWidthProperty().bind(table.widthProperty().divide(4)); 
+        nameColumn.prefWidthProperty().bind(table.widthProperty().divide(4));
+        lastNameColumn.prefWidthProperty().bind(table.widthProperty().divide(4));
+        ageColumn.prefWidthProperty().bind(table.widthProperty().divide(4));
         table.getColumns().addAll(markColumn, nameColumn, lastNameColumn, ageColumn);
+        
         return table;
     }
     
     public static AnchorPane createEdit(){
+        root = new AnchorPane();
         //Mark input
         markInput = new TextField();
         markInput.setPromptText("Mark");
-        markInput.setMinWidth(10);
+        markInput.setPrefWidth(100);
         
         //First name input
         nameInput = new TextField();
         nameInput.setPromptText("First name");
-        nameInput.setMinWidth(10);
+        nameInput.setPrefWidth(100);
         
         //Last name input
         lastNameInput = new TextField();
         lastNameInput.setPromptText("Last name");
-        lastNameInput.setMinWidth(10);
+        lastNameInput.setPrefWidth(100);
         
         //Age input
         ageInput = new TextField();
         ageInput.setPromptText("Age");
-        ageInput.setMinWidth(10);
+        ageInput.setPrefWidth(100);
         
         //Add button
         Button addButton = new Button("Add");
@@ -85,12 +85,12 @@ public class CustomTableView extends AnchorPane {
         
         
         hBox = new HBox();
-        hBox.setPadding(new Insets(13,5,5,5));
+        hBox.setPadding(new Insets(10,10,10,10));
         hBox.setSpacing(5);
         hBox.getChildren().addAll(markInput, nameInput, lastNameInput, ageInput, addButton, deleteButton);
         AnchorPane.setLeftAnchor(hBox,10.0);
         AnchorPane.setRightAnchor(hBox,10.0);
-        AnchorPane.setRightAnchor(hBox,10.0);
+        AnchorPane.setTopAnchor(hBox,30.0);
         root.getChildren().add(hBox);
         return root;
     }
@@ -102,15 +102,13 @@ public class CustomTableView extends AnchorPane {
         s.setLastName(lastNameInput.getText());
         s.setAge(Integer.parseInt(ageInput.getText()));
         
+        String newLine = "\n";
         File f = new File(adress);
         try{
-            PrintWriter out = new PrintWriter(new FileWriter(f, true));
-            out.append("\n");
-            out.append(s.getMark() + ";" + s.getFirstName() + ";" + s.getLastName() + ";" + s.getAge());
-            out.close();
-        }catch(IOException e){
-            System.out.println("COULD NOT LOG!!");
-        }
+            FileWriter fw = new FileWriter(adress,true);
+            fw.write(s.getMark() + ";" + s.getFirstName() + ";" + s.getLastName() + ";" + s.getAge() + newLine);
+            fw.close();
+        }catch(IOException e){}
         
         table.getItems().add(s);
         markInput.clear();
@@ -124,26 +122,47 @@ public class CustomTableView extends AnchorPane {
         
         allStudents = table.getItems();
         selected = table.getSelectionModel().getSelectedItems();
+        List<Student> st = new ArrayList<>(selected);
         selected.forEach(allStudents::remove);
-        /*
-        File f = new File(adress);
-        File newf = new File(adress);
-        List<Student> resultStudents = new ArrayList<>();
-        try {
-            resultStudents = StudentsParser.parse(f);
-            f.delete();
-            PrintWriter f2 = new PrintWriter(newf);
-            
-            for(Student s : resultStudents){
-                 if(!s.equals(selected)){
-                    f2.append(s.getMark() + ";" + s.getFirstName() + ";" + s.getLastName() + ";" + s.getAge()+"\n\n");
-                }
-            }
-            f2.close();
-        } catch (IOException ex) {
-            Logger.getLogger(CustomTableView.class.getName()).log(Level.SEVERE, null, ex);
         
-        }*/
+        File inputFile = new File(adress);
+        String adress2 = "D:\\students2.txt";
+        File tempFile = new File(adress2);
+        String lineToRemove;
+        String currentLine;
+        
+        BufferedReader reader;
+        BufferedWriter writer;
+        
+        try {           
+            reader = new BufferedReader(new FileReader(inputFile));
+            writer = new BufferedWriter(new FileWriter(tempFile));
+            
+        for(Student s : st){
+           
+            lineToRemove = s.getMark() + ";" + s.getFirstName() + ";" + s.getLastName() + ";" + s.getAge(); 
+            
+            while((currentLine = reader.readLine()) != null) {
+                String trimmedLine = currentLine.trim();
+                if(trimmedLine.contains(lineToRemove)) continue;
+                    writer.write(currentLine + System.getProperty("line.separator"));
+            }
+            writer.close(); 
+            reader.close(); 
+            inputFile.delete();
+            Files.move(tempFile.toPath(), inputFile.toPath());  
+        }
+    
+        
+    } catch (IOException ex) {}
+
+    }      
+       
+    public static TableView getTableView() {
+        return table;
+    }
+    public static void setTableView(final TableView tableView) {
+        table = tableView;
     }
 }
 

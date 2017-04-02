@@ -2,19 +2,17 @@ package Crawler;
 
 import static Crawler.Crawler.ExtremumMode.*;
 import static Crawler.Crawler.OrderMode.*;
+import static Crawler.Crawler.STATUS.*;
 import static Crawler.Sorter.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-//import javax.mail.MessagingException;
 
-
-public class Crawler {
+public class Crawler implements Runnable {
 
 private static List<Student> resultStudents;
 private static List<Student> previousStudents;
 public static String adress = "D:\\students.txt";
-static int i = 0;
 public enum OrderMode
 {
 MARK,
@@ -27,6 +25,16 @@ public enum ExtremumMode
 MAX,
 MIN
 }
+public enum STATUS
+{
+STARTING,
+I_STARTED,
+I_COMPLETED,
+ADDED,
+REMOVED,
+UNCHANGED
+}
+
     
 public Crawler() {
     previousStudents = new ArrayList<>();
@@ -38,9 +46,9 @@ public static List<Student> getResults(){
 }
 
 public static void print(List<Student> students){ //wyświetlanie
-    for(Student s : students){
+    students.forEach((s) -> {
         System.out.println( s.getMark() + " " + s.getFirstName() + " " + s.getLastName() + " " + s.getAge() );
-    } 
+    }); 
 }
 
 public static List<Student> extractStudents( List<Student> students, OrderMode mode ){// posortowani studenci 
@@ -101,38 +109,104 @@ public static int extractAge(List<Student> students, ExtremumMode mode ){// maks
     
    return age; 
 }
-
-public void run() throws IOException, MyException{
-    while(true){
-        File f = new File(adress);
-        if(f == null){
-            throw new MyException();
-        }
-       resultStudents = new ArrayList<>();
-       resultStudents = StudentsParser.parse(f);
-       i++; //iteracja pętli
-       StudentsListener handler;
        
+        private List<Logger> iterationStartedListeners = new ArrayList<>();
+	public void addIterationStartedListener(Logger listener){
+		iterationStartedListeners.add(listener);
+	}
+	public void removeIterationStartedListener(Logger listener){
+		iterationStartedListeners.remove(listener);
+	}
+	private List<Logger> iterationComplitedListeners = new ArrayList<>();
+	public void addIterationComplitedListener(Logger listener){
+		iterationComplitedListeners.add(listener);
+	}
+	public void removeIterationComplitedListener(Logger listener){
+		iterationComplitedListeners.remove(listener);
+	}
+        
+        private List<Logger> addNewStudentListeners = new ArrayList<>();
+	public void addNewStudentListener(Logger listener){
+		addNewStudentListeners.add(listener);
+	}
+	public void removeNewStudentListener(Logger listener){
+		addNewStudentListeners.remove(listener);
+	}
+        
+	private List<Logger> addRemoveStudentListeners = new ArrayList<>();
+	public void addRemoveStudentListener(Logger listener){
+		addRemoveStudentListeners.add(listener);
+	}
+	public void removeRemoveStudentListener(Logger listener){
+		addRemoveStudentListeners.remove(listener);
+	}
+        
+        private List<Logger> addUnchangedListeners = new ArrayList<>();
+	public void addUnchangedListener(Logger listener){
+		addUnchangedListeners.add(listener);
+	}
+	public void removeUnchangedListener(Logger listener){
+		addUnchangedListeners.remove(listener);
+	}
+        
+@Override
+public void run(){
+    int i = 1;
+    StudentsListener handler;
+    Student student;
+    while(true){
+        for(Logger l:iterationStartedListeners){
+            l.log(I_STARTED,i);
+        }
+        File f = new File(adress); 
+       resultStudents = new ArrayList<>();
+        try {
+            resultStudents = StudentsParser.parse(f);
+        } catch (IOException ex) {} 
+             
        if(previousStudents == null){ //jeśli i = 1
            if(!resultStudents.isEmpty()){
-           handler = new StudentsListener();
-           handler.notifyAdded(previousStudents, resultStudents);
+                for (Logger l : addNewStudentListeners) {
+                    for (Student s : resultStudents) {
+                        l.log(ADDED, s);
+                    }
+            }
+           }
+       }
+       else if(resultStudents == null){ //jeśli i = 1
+           if(!previousStudents.isEmpty()){
+                for (Logger l : addRemoveStudentListeners) {
+                    for (Student s : previousStudents) {
+                        l.log(REMOVED, s);
+                    }
+            }
            }
        }
        else if(previousStudents.size() > resultStudents.size()){
            //usunięto
            handler = new StudentsListener();
-           handler.notifyRemoved(previousStudents, resultStudents);
+           List<Student> st = handler.removed(previousStudents, resultStudents);
+           for(Student s: st){
+                for (Logger l : addRemoveStudentListeners) {
+                    l.log(REMOVED, s);
+                }
+            }
        }
        else if(previousStudents.size() < resultStudents.size()){
            //dodano
            handler = new StudentsListener();
-           handler.notifyAdded(previousStudents, resultStudents);
+           List<Student> st = handler.added(previousStudents, resultStudents);
+           for(Student s : st){
+                for (Logger l : addNewStudentListeners) {
+                    l.log(ADDED, s);
+                }
+        }
         }
        else{
             // nie zmodyfikowano  
-           handler = new StudentsListener();
-           handler.notifyUnchanged();
+            for (Logger l : addUnchangedListeners) {
+                l.log(UNCHANGED);
+            }
        }
        
        previousStudents = resultStudents;
@@ -142,6 +216,11 @@ public void run() throws IOException, MyException{
          } catch (Exception e) {
             System.out.println(e);
          }
+        i++; //iteracja pętli
+        for(Logger l: iterationComplitedListeners){
+            l.log(I_COMPLETED,i);
+        }
+        
     }
 }
 

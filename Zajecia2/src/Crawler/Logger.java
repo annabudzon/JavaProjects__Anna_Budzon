@@ -1,8 +1,10 @@
 
 package Crawler;
 
+import Crawler.Crawler.STATUS;
+
 public interface Logger {
-   public void log( String status, Student student);
-   public void log(String status, int iteracja);
-   public void log(String status);
+   public void log( STATUS status, Student student);
+   public void log(STATUS status, int iteracja);
+   public void log(STATUS status);
 }
