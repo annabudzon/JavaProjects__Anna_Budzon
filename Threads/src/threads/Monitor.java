@@ -2,15 +2,15 @@ package threads;
 
 import java.util.ArrayList;
 import java.util.List;
+import static threads.Crawler.STATUS.*;
 
 public class Monitor {
-    private List<String> links;
-    private int numberOfThreads;
+    private final List<String> links;
+    private final List<MyThread> threads;
+    private final int numberOfThreads;
     private boolean condition;
-    private List<Thread> threads;
-     public static Logger[] loggers = new Logger[]{ 
+    public static Logger[] loggers = new Logger[]{ 
       new ConsoleLogger() 
-      //new MailLogger()
     };
     
     public Monitor(){
@@ -28,34 +28,37 @@ public class Monitor {
          
     }
     
-   private final List<Logger> addNewStudentListeners = new ArrayList<>();
-	public void addNewStudentListener(Logger listener){
-		addNewStudentListeners.add(listener);
-	}
-	public void removeNewStudentListener(Logger listener){
-		addNewStudentListeners.remove(listener);
-	}
-        
-	private final List<Logger> addRemoveStudentListeners = new ArrayList<>();
-	public void addRemoveStudentListener(Logger listener){
-		addRemoveStudentListeners.add(listener);
-	}
-	public final void removeRemoveStudentListener(Logger listener){
-		addRemoveStudentListeners.remove(listener);
-	}
+    public void iterationStartedEvent(Logger listener, int i){
+	listener.log(I_STARTED,i);
+    }
+    
+    public void iterationComplitedEvent(Logger listener, int i){
+	listener.log(I_COMPLETED,i);
+    }
+    
+    public void studentAddedEvent(Logger listener, Student s){
+	listener.log(ADDED, s);
+    }
+	
+    public void studentRemovedEvent(Logger listener, Student s){
+	listener.log(REMOVED, s);
+    }
+    
+    public void unchangedEvent(Logger listener){
+	listener.log(UNCHANGED);
+    }
         
     public void cancel(){
         try {
-         condition = false;
-         Crawler.postCancel();
-         for(Thread t : threads){
-             t.join();
-         }
+            condition = false;
+            for(MyThread t : threads){
+                t.postCancel();
+                t.join();
+            }
          
       }catch( InterruptedException e) {
          System.out.println("Interrupted thread!\n");
-      }
-        
+      } 
     }
     
     public void start() throws MonitorException{
@@ -65,32 +68,27 @@ public class Monitor {
         while(condition){
             
             if(count == numberOfThreads-1){
-               // this.cancel();
+               condition = false;
                break;
             }
             if(links.size() < numberOfThreads){
                 throw new MonitorException("Zbyt duza ilosc watkow!");
             }
             
-            String l = links.get(count);
-            Crawler crawler = new Crawler();
+            String link = links.get(count);
             int idx = count+1;
+            Crawler crawler = new Crawler(this);
+            crawler.addNewStudentListener(new ParellelLogger(loggers)); 
+            crawler.addRemoveStudentListener(new ParellelLogger(loggers)); 
+            crawler.addUnchangedListener(new ParellelLogger(loggers));
+            crawler.addIterationStartedListener(new ParellelLogger(loggers));
+            crawler.addIterationComplitedListener(new ParellelLogger(loggers));
+            String threadName = "THREAD "+idx;
             
-            Thread t = new Thread(){ 
-                @Override
-                public void run(){  
-                    this.setName("THREAD "+idx);
-                    crawler.addNewStudentListener(new ParellelLogger(loggers)); 
-                    crawler.addRemoveStudentListener(new ParellelLogger(loggers)); 
-                    crawler.addUnchangedListener(new ParellelLogger(loggers));
-                    crawler.addIterationStartedListener(new ParellelLogger(loggers));
-                    crawler.addIterationComplitedListener(new ParellelLogger(loggers));
-                    crawler.run(l);
-                }  
-            };  
-            threads.add(t);
-            t.start();
-            count++;
+            MyThread thread = new MyThread(threadName, crawler, link);
+            threads.add(thread);
+            thread.start();
+            count++;         
         }
     }
 }
