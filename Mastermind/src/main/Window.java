@@ -31,8 +31,10 @@ public class Window {
     public Window() {}
     
     public void startApplication(Stage primaryStage){
-    window = primaryStage;
+        window = primaryStage;
         window.setTitle("MASTERMIND by Annek&Gosiak");
+        window.setWidth(965);
+        window.setHeight(568);
         window.setResizable(false);
         window.setOnCloseRequest(e -> {
             e.consume();

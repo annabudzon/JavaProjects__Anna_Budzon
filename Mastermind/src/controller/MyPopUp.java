@@ -24,15 +24,15 @@ public class MyPopUp {
         popup.setY(530);
         controller = new PopUpController();
         myPane = new Pane();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PopUp.fxml"));
         
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PopUp.fxml"));
             myPane = (Pane)loader.load();
-            controller = (PopUpController) loader.getController();
         } catch (IOException ex) {
             System.out.println("FXMLLoader exception.");
         }
         
+        controller = (PopUpController) loader.getController();
         controller.setButtonID(paintedButtonID);
         popup.getContent().addAll(myPane);
         popup.show(stage);

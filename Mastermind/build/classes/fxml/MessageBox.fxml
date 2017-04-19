@@ -10,12 +10,22 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="controller.MessageBoxController">
-   <children>
-       <TextArea fx:id="textArea" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="480.0" VBox.vgrow="ALWAYS">
-           <VBox.margin>
-               <Insets right="5.0" top="5.0" />
-           </VBox.margin>
-       </TextArea>
-   </children>
+<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MessageBoxController">
+    <children>
+      <VBox>
+         <children>
+              <TextArea fx:id="textArea" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="480.0" VBox.vgrow="ALWAYS">
+                  <VBox.margin>
+                      <Insets right="5.0" top="5.0" />
+                  </VBox.margin>
+              </TextArea>
+              <ToolBar prefHeight="40.0" prefWidth="150.0">
+                  <items>
+                      <TextField fx:id="messageField" minHeight="-Infinity" minWidth="-Infinity" prefWidth="426.0" promptText="Write some message here" />
+                      <Button fx:id="sendButton" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#sendHandle" text="Send" />
+                  </items>
+              </ToolBar>
+         </children>
+      </VBox>
+    </children>
 </AnchorPane>

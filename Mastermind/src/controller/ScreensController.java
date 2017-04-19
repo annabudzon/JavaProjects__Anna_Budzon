@@ -1,6 +1,5 @@
 package controller;
 
-import controller.ControlledScreen;
 import java.io.IOException;
 import java.util.HashMap;
 import javafx.beans.property.DoubleProperty;
@@ -11,7 +10,7 @@ import javafx.scene.layout.StackPane;
 
 public class ScreensController extends StackPane {
 
-	private HashMap<String, Node> screens = new HashMap<>();
+	private final HashMap<String, Node> screens = new HashMap<>();
 
 	public ScreensController() {
 		super();

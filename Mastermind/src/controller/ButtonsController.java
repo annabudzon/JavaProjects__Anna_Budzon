@@ -26,7 +26,7 @@ public class ButtonsController implements Initializable {
     }   
     
     public void circleClicked(ActionEvent e){
-      /* MyPopUp popup = new MyPopUp();
+      MyPopUp popup = new MyPopUp();
        Stage stage = (Stage) anchor.getScene().getWindow();
         
          if (e.getSource().equals(circleButton1)){
@@ -40,7 +40,7 @@ public class ButtonsController implements Initializable {
          }
          else if(e.getSource().equals(circleButton4)){
             popup.showPopup(BUTTON4,stage);
-         }    */
+         }    
     }
     
     public void guessHandle(){}

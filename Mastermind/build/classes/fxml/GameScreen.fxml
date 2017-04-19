@@ -21,13 +21,7 @@
         <Separator orientation="VERTICAL" prefHeight="540.0" prefWidth="10.0" />
         <VBox alignment="CENTER_RIGHT" minHeight="-Infinity" minWidth="-Infinity" prefWidth="485.0">
             <children>
-                <fx:include fx:id="messageBoxControl" source="MessageBox.fxml" /> 
-                <ToolBar prefHeight="40.0" prefWidth="150.0">
-                    <items>
-                        <TextField fx:id="messageField" minHeight="-Infinity" minWidth="-Infinity" prefWidth="426.0" promptText="Write some message here" />
-                        <Button fx:id="sendButton" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#sendHandle" text="Send" />
-                    </items>
-                </ToolBar>  
+                <fx:include fx:id="messageBoxControl" source="MessageBox.fxml" />   
             </children>
             <padding>
                 <Insets top="5.0" />

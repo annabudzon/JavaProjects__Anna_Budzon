@@ -15,7 +15,7 @@ public class MenuScreenController implements Initializable, ControlledScreen {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        //stackPane.prefWidthProperty().bind(stackPane.getScene().getWindow().widthProperty());
     }
     
     @Override
