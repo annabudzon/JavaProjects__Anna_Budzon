@@ -1,26 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 public class GameScreenController implements Initializable, ControlledScreen {
-
-    ScreensController myController;
-
+    private ScreensController myController;
+    
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }
+    public void initialize(URL url, ResourceBundle rb) {}
 
     @Override
     public void setParentScreen(ScreensController screenParent) {
         myController = screenParent;
     }
-
+    
+    @FXML
+    public void sendHandle(){}
+    
 }

@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.canvas.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameScreenController">
-    
-</AnchorPane>
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameScreenController">
+    <children>
+        <VBox alignment="CENTER_LEFT">
+            <children>
+                <fx:include fx:id="canvasControl" source="CanvasBox.fxml" /> 
+                <fx:include fx:id="buttonsControl" source="Buttons.fxml" />
+            </children>
+        </VBox>
+        <Separator orientation="VERTICAL" prefHeight="540.0" prefWidth="10.0" />
+        <VBox alignment="CENTER_RIGHT" minHeight="-Infinity" minWidth="-Infinity" prefWidth="485.0">
+            <children>
+                <fx:include fx:id="messageBoxControl" source="MessageBox.fxml" /> 
+                <ToolBar prefHeight="40.0" prefWidth="150.0">
+                    <items>
+                        <TextField fx:id="messageField" minHeight="-Infinity" minWidth="-Infinity" prefWidth="426.0" promptText="Write some message here" />
+                        <Button fx:id="sendButton" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#sendHandle" text="Send" />
+                    </items>
+                </ToolBar>  
+            </children>
+            <padding>
+                <Insets top="5.0" />
+            </padding>
+        </VBox>
+    </children>
+</HBox>

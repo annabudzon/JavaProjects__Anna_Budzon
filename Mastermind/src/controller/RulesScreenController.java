@@ -8,9 +8,9 @@ package controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import static main.Window.screenMenu;
 
 public class RulesScreenController implements Initializable, ControlledScreen {
-
     ScreensController myController;
 
     @Override
@@ -21,6 +21,10 @@ public class RulesScreenController implements Initializable, ControlledScreen {
     @Override
     public void setParentScreen(ScreensController screenParent) {
         myController = screenParent;
+    }
+    
+    public void goBackHandle(){
+        myController.setScreen(screenMenu);
     }
 
 }

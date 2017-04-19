@@ -21,15 +21,17 @@ public class Window {
     public static String screenSettingsFile = "/fxml/SettingsScreen.fxml";
     public static String screenRules = "rules";
     public static String screenRulesFile = "/fxml/RulesScreen.fxml";
-    public static final int WIDTH = 800;
-    public static final int HEIGHT = WIDTH / 12 * 9;
-    private static Stage window;
+    public static String screenSetIP = "setIP";
+    public static String screenSetIPFile = "/fxml/SetIP.fxml";
+    private Stage window;
     private Stage startStage;
     private Group root;
     private StartWindow startWindow;
 
-    public Window(Stage primaryStage) {
-        window = primaryStage;
+    public Window() {}
+    
+    public void startApplication(Stage primaryStage){
+    window = primaryStage;
         window.setTitle("MASTERMIND by Annek&Gosiak");
         window.setResizable(false);
         window.setOnCloseRequest(e -> {
@@ -49,6 +51,7 @@ public class Window {
         mainContainer.loadScreen(screenGameOver, screenGameOverFile);
         mainContainer.loadScreen(screenSettings, screenSettingsFile);
         mainContainer.loadScreen(screenRules, screenRulesFile);
+//        mainContainer.loadScreen(screenSetIP, screenSetIPFile);
 
         root = new Group();
         root.getChildren().add(mainContainer);
@@ -58,7 +61,7 @@ public class Window {
             @Override
             public void handle(KeyEvent ke) {
                 if (ke.getCode() == KeyCode.ESCAPE) {
-                    Window.closeProgram();
+                    closeProgram();
                 }
             }
         });
@@ -74,10 +77,14 @@ public class Window {
         window.show();
     }
 
-    public static void closeProgram() {
+    public void closeProgram() {
         boolean answer = ConfirmBox.display("Closing window", "Sure you want to exit?");
         if (answer) {
-            window.close();
+            getStage().close();
         }
+    }
+    
+    public Stage getStage(){
+        return this.window;
     }
 }
