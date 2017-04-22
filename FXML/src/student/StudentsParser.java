@@ -1,6 +1,5 @@
 package student;
 
-import model.StudentModel;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;

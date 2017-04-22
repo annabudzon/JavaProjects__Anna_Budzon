@@ -7,30 +7,41 @@ import crawler.Crawler;
 import student.StudentsHandling;
 import main.MyApplication;
 import model.StudentModel;
-import logger.GUILogger;
-import logger.ConsoleLogger;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-import logger.BarChartRefresher;
+import logger.BinaryLogger;
+import logger.CompressedLogger;
+import refresher.BarChartRefresher;
 import logger.Logger;
+import logger.TextLogger;
+import logger.GUILogger;
+import logger.ConsoleLogger;
+import logger.SerializedLogger;
 
 public class MainScreenController implements Initializable, ControlScreen {
-    public static Logger[] loggers = new Logger[]{ 
-      new GUILogger(),
-      new ConsoleLogger(), 
+
+    private final String TEXTADRESS = "textLoggs.txt";
+    private final String COMPRESSEDADRESS = "compressedLoggs.zip";
+    private final String SERIALIZEDADRESS = "serializedLoggs.bin";
+    private final String BINARYADRESS = "binaryLoggs.bin";
+    public Logger[] loggers = new Logger[]{
+        new GUILogger(),
+        new ConsoleLogger(),
+        new TextLogger(TEXTADRESS),
+        new CompressedLogger(COMPRESSEDADRESS),
+        new SerializedLogger(SERIALIZEDADRESS),
+        new BinaryLogger(BINARYADRESS)
     };
     private ScreensController myController;
     final BooleanProperty escPressed = new SimpleBooleanProperty(false);
@@ -63,28 +74,15 @@ public class MainScreenController implements Initializable, ControlScreen {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //ConsoleLogger console = new ConsoleLogger();
-        //GUILogger gui = new GUILogger();
         Crawler crawler = new Crawler(this);
         BarChartRefresher barRefresh = new BarChartRefresher();
         crawler.addbarChartChangedListener(barRefresh);
-        for(Logger l: loggers){
-        /*crawler.addNewStudentListener(console);
-        crawler.addRemoveStudentListener(console);
-        crawler.addUnchangedListener(console);
-        crawler.addIterationStartedListener(console);
-        crawler.addIterationComplitedListener(console);
-        crawler.addNewStudentListener(gui);
-        crawler.addRemoveStudentListener(gui);
-        crawler.addUnchangedListener(gui);
-        crawler.addIterationStartedListener(gui);
-        crawler.addIterationComplitedListener(gui);
-        crawler.addIterationComplitedListener(gui);*/
-        crawler.addNewStudentListener(l);
-        crawler.addRemoveStudentListener(l);
-        crawler.addUnchangedListener(l);
-        crawler.addIterationStartedListener(l);
-        crawler.addIterationComplitedListener(l);
+        for (Logger l : loggers) {
+            crawler.addNewStudentListener(l);
+            crawler.addRemoveStudentListener(l);
+            crawler.addUnchangedListener(l);
+            crawler.addIterationStartedListener(l);
+            crawler.addIterationComplitedListener(l);
         }
 
         Task task = new Task<Void>() {
@@ -128,7 +126,7 @@ public class MainScreenController implements Initializable, ControlScreen {
         String name = firstNameInput.getText();
         String lastName = lastNameInput.getText();
         String age = ageInput.getText();
-        if (mark.trim().isEmpty() || name.trim().isEmpty() || lastName.trim().isEmpty() || age.trim().isEmpty() || !age.matches("\\d*") || !mark.matches("[2-4](\\.[0,5]{1,2}){0,1}|5(\\.0{1,2}){0,1}") || name.matches("[0-9]") || name.matches("[\\\\!\"#$%&()*+,./:;<=>?@\\[\\]^_{|}~]+") || lastName.matches("[0-9]") || lastName.matches("[\\\\!\"#$%&()*+,./:;<=>?@\\[\\]^_{|}~]+") ) {
+        if (mark.trim().isEmpty() || name.trim().isEmpty() || lastName.trim().isEmpty() || age.trim().isEmpty() || !age.matches("\\d*") || !mark.matches("[2-4](\\.[0,5]{1,2}){0,1}|5(\\.0{1,2}){0,1}") || name.matches("[0-9]") || name.matches("[\\\\!\"#$%&()*+,./:;<=>?@\\[\\]^_{|}~]+") || lastName.matches("[0-9]") || lastName.matches("[\\\\!\"#$%&()*+,./:;<=>?@\\[\\]^_{|}~]+")) {
             AlertBox box = new AlertBox();
             box.display("Niepoprawne dane!");
         } else {
@@ -168,30 +166,21 @@ public class MainScreenController implements Initializable, ControlScreen {
     }
 
     public void handleEscPressed() {
-        escPressed.addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean werePressed, Boolean arePressed) {
-                closeProgram();
-            }
+        escPressed.addListener((ObservableValue<? extends Boolean> observable, Boolean werePressed, Boolean arePressed) -> {
+            closeProgram();
         });
 
-        borderPane.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent ke) {
-                if (ke.getCode() == KeyCode.ESCAPE) {
-                    escPressed.set(true);
-                }
+        borderPane.getScene().setOnKeyPressed((KeyEvent ke) -> {
+            if (ke.getCode() == KeyCode.ESCAPE) {
+                escPressed.set(true);
             }
         });
     }
 
     public void handleEscReleased() {
-        borderPane.getScene().setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent ke) {
-                if (ke.getCode() == KeyCode.ESCAPE) {
-                    escPressed.set(false);
-                }
+        borderPane.getScene().setOnKeyReleased((KeyEvent ke) -> {
+            if (ke.getCode() == KeyCode.ESCAPE) {
+                escPressed.set(false);
             }
         });
     }

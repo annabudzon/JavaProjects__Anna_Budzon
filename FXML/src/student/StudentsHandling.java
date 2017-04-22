@@ -36,13 +36,16 @@ public class StudentsHandling {
     }
 
     public void saveData(File file, StudentModel s) {
+
         String newLine = "\r\n";
-        try {
-            FileWriter fw = new FileWriter(file, true);
+
+        try (FileWriter fw = new FileWriter(file, true)) {
             fw.write(s.getMark() + ";" + s.getFirstName() + ";" + s.getLastName() + ";" + s.getAge() + newLine);
-            fw.close();
+
         } catch (IOException e) {
+            System.out.println("StudentsHandling saveData() - IOException");
         }
+
     }
 
     public void deleteData(File inputFile, File tempFile, List<StudentModel> st) {
@@ -72,6 +75,8 @@ public class StudentsHandling {
                 Files.move(tempFile.toPath(), inputFile.toPath());
             }
         } catch (IOException ex) {
+            System.out.println("StudentsHandling deleteData() - IOException");
         }
+
     }
 }

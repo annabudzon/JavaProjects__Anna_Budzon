@@ -1,21 +1,31 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class StudentModel {
+public class StudentModel implements Serializable {
 
     private double mark;
     private String firstName;
     private String lastName;
     private int age;
 
-    public StudentModel() {}
+    public StudentModel() {
+    }
 
     public StudentModel(double mark, String firstName, String lastName, int age) {
         this.mark = mark;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
+    }
+
+    public StudentModel(StudentModel s) {
+        this.mark = s.getMark();
+        this.firstName = s.getFirstName();
+        this.lastName = s.getLastName();
+        this.age = s.getAge();
+
     }
 
     public double getMark() {
@@ -53,10 +63,10 @@ public class StudentModel {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("   "+this.firstName);
-        result.append("   "+this.lastName);
-        result.append("   "+this.mark);
-        result.append("   "+this.age);
+        result.append("   " + this.firstName);
+        result.append("   " + this.lastName);
+        result.append("   " + this.mark);
+        result.append("   " + this.age);
         return result.toString();
     }
 
@@ -96,7 +106,5 @@ public class StudentModel {
         }
         return true;
     }
- 
 
-    
 }

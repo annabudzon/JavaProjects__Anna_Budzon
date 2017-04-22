@@ -4,5 +4,6 @@
 2.0;Marcin;Nowak;22
 3.5;Filip;Wrona;22
 4.5;Hubert;Grzyb;22
-2.5;Bogdan;Krzaczek;23
+3.5;Bogdan;Krzaczek;23
+5.0;Anna;Budzon;21
 5.0;Adrian;Kurek;25

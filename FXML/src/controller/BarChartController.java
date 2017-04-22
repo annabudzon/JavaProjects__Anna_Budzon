@@ -18,12 +18,11 @@ public class BarChartController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    
-    
+
     }
 
     public void loadBarChart(List<StudentModel> students) {
-       if(!barChart.getData().isEmpty()){
+        if (!barChart.getData().isEmpty()) {
             barChart.getData().clear();
             barChart.layout();
         }
@@ -37,7 +36,10 @@ public class BarChartController implements Initializable {
             series.getData().add(new XYChart.Data<>(Double.toString(j), markCount[i]));
             j += 0.5;
         }
-        barChart.getData().addAll(series);
+        try {
+            barChart.getData().addAll(series);
+        } catch (Exception e) {
+        }
     }
 
     private int[] markCounter(List<StudentModel> tempStudents) {

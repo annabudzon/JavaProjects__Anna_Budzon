@@ -9,10 +9,10 @@ import static crawler.Crawler.STATUS.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import logger.Refresher;
+import refresher.Refresher;
 
 public class Crawler {
-    
+
     private final List<Logger> iterationStartedListeners = new ArrayList<>();
     private final List<Logger> iterationComplitedListeners = new ArrayList<>();
     private final List<Logger> addRemoveStudentListeners = new ArrayList<>();
@@ -37,7 +37,7 @@ public class Crawler {
         this.control = controller;
         //previousStudents = null;
         currentStudents = new ArrayList<>();
-    }  
+    }
 
     public void addIterationStartedListener(Logger listener) {
         iterationStartedListeners.add(listener);
@@ -46,7 +46,7 @@ public class Crawler {
     public void removeIterationStartedListener(Logger listener) {
         iterationStartedListeners.remove(listener);
     }
-    
+
     public void addIterationComplitedListener(Logger listener) {
         iterationComplitedListeners.add(listener);
     }
@@ -78,7 +78,7 @@ public class Crawler {
     public void removeUnchangedListener(Logger listener) {
         addUnchangedListeners.remove(listener);
     }
-    
+
     public void addbarChartChangedListener(Refresher listener) {
         barChartChangedListeners.add(listener);
     }
@@ -86,7 +86,6 @@ public class Crawler {
     public void removebarChartChangedListener(Refresher listener) {
         barChartChangedListeners.remove(listener);
     }
-    
 
     public void run() {
         StudentsListener handler;
@@ -110,7 +109,7 @@ public class Crawler {
                             l.log(ADDED, s, this.control);
                         }
                     }
-                    for(Refresher r : barChartChangedListeners){
+                    for (Refresher r : barChartChangedListeners) {
                         r.refresh(currentStudents, this.control);
                     }
                 }
@@ -121,7 +120,7 @@ public class Crawler {
                             l.log(REMOVED, s, this.control);
                         }
                     }
-                    for(Refresher r : barChartChangedListeners){
+                    for (Refresher r : barChartChangedListeners) {
                         r.refresh(currentStudents, this.control);
                     }
                 }
@@ -134,9 +133,9 @@ public class Crawler {
                         l.log(REMOVED, s, this.control);
                     }
                 }
-                for(Refresher r : barChartChangedListeners){
-                        r.refresh(currentStudents, this.control);
-                    }
+                for (Refresher r : barChartChangedListeners) {
+                    r.refresh(currentStudents, this.control);
+                }
             } else if (previousStudents.size() < currentStudents.size()) {
                 //dodano
                 handler = new StudentsListener();
@@ -147,9 +146,9 @@ public class Crawler {
                         l.log(ADDED, s, this.control);
                     }
                 }
-                for(Refresher r : barChartChangedListeners){
-                        r.refresh(currentStudents, this.control);
-                    }
+                for (Refresher r : barChartChangedListeners) {
+                    r.refresh(currentStudents, this.control);
+                }
             } else {
                 // nie zmodyfikowano  
                 for (Logger l : addUnchangedListeners) {
@@ -161,7 +160,7 @@ public class Crawler {
 
             try {
                 Thread.sleep(10000);
-            } catch (Exception e) {
+            } catch (InterruptedException e) {
                 System.out.println(e);
             }
 

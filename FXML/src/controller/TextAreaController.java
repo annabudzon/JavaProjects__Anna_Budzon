@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.net.URL;
@@ -12,15 +7,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
 
 public class TextAreaController implements Initializable {
-    @FXML private TextArea textArea;
-    
+
+    @FXML
+    private TextArea textArea;
+
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }   
-    
-    public void setTextArea(String logg){
-      textArea.appendText(logg);
+    public void initialize(URL url, ResourceBundle rb) {}
+
+    public void setTextArea(String logg) {
+        textArea.appendText(logg);
     }
-    
+
 }

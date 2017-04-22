@@ -8,20 +8,21 @@ import javafx.beans.property.StringProperty;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class UserModel {
+
     private final StringProperty userName;
     private final StringProperty password;
     private final StringProperty adress;
     private final StringProperty gender;
     private final IntegerProperty age;
-    
-    public UserModel(){
+
+    public UserModel() {
         this.userName = new SimpleStringProperty();
         this.password = new SimpleStringProperty();
         this.adress = new SimpleStringProperty();
         this.gender = new SimpleStringProperty();
         this.age = new SimpleIntegerProperty();
     }
-    
+
     public UserModel(String userName, String password, String adress, String gender, Integer age) {
         this.userName = new SimpleStringProperty(userName);
         this.password = new SimpleStringProperty(DigestUtils.sha1Hex(password));
@@ -29,13 +30,12 @@ public class UserModel {
         this.gender = new SimpleStringProperty(gender);
         this.age = new SimpleIntegerProperty(age);
     }
-    
+
     @Override
     public String toString() {
         return "UserModel{" + "userName=" + userName + ", password=" + password + ", adress=" + adress + ", gender=" + gender + ", age=" + age + '}';
     }
 
-    
     public StringProperty getUserNameProperty() {
         return userName;
     }
@@ -55,43 +55,43 @@ public class UserModel {
     public IntegerProperty getAgeProperty() {
         return age;
     }
-    
+
     public final String getUserName() {
         return userName.get();
     }
-    
+
     public final String getPassword() {
         return password.get();
     }
-    
+
     public final int getAge() {
         return age.get();
     }
-    
+
     public final String getAdress() {
         return adress.get();
     }
-    
+
     public final String getGender() {
         return userName.get();
     }
-    
+
     public final void setUserName(String userName) {
         this.userName.set(userName);
     }
-    
+
     public final void setPassword(String password) {
         this.password.set(DigestUtils.sha1Hex(password));
     }
-    
+
     public final void setAge(int age) {
         this.age.set(age);
     }
-    
+
     public final void setAdress(String adress) {
         this.adress.set(adress);
     }
-    
+
     public final void setGender(String gender) {
         this.gender.set(gender);
     }
@@ -137,8 +137,4 @@ public class UserModel {
         return true;
     }
 
-    
-     
-    
-    
 }

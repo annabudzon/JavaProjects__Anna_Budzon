@@ -22,25 +22,24 @@ public class UserSearcher {
         try {
             input = new FileInputStream("userData.properties");
             prop.load(input);
-            amount = prop.size()/2+1;
-            for(int i = 1; i < amount; i++){
-                result = prop.getProperty("user"+i, "lack");
-                
-                if(result.equals(user.getUserName())){
-                    resultPassword = prop.getProperty("user"+i+"pass");
-                    
-                    if(resultPassword.equals(user.getPassword())){
+            amount = prop.size() / 2 + 1;
+            for (int i = 1; i < amount; i++) {
+                result = prop.getProperty("user" + i, "lack");
+
+                if (result.equals(user.getUserName())) {
+                    resultPassword = prop.getProperty("user" + i + "pass");
+
+                    if (resultPassword.equals(user.getPassword())) {
                         wantedUser.setUserName(result);
                         wantedUser.setPassword(resultPassword);
                         state = GRANTED;
-                    }
-                    else{
+                    } else {
                         state = WRONG_PASSWORD;
                     }
                     break;
                 }
-            } 
-            if (wantedUser.getUserName().equals("lack")) {
+            }
+            if (result.equals("lack")) {
                 state = NOT_USER;
             }
 

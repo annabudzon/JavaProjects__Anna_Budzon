@@ -1,13 +1,9 @@
 package controller;
 
 import boxes.AlertBox;
-import static controller.LogInController.ACCESS.GRANTED;
-import static controller.LogInController.ACCESS.NOT_USER;
-import static controller.LogInController.ACCESS.WRONG_PASSWORD;
 import static controller.LogInController.closeProgram;
 import static controller.SignUpController.GENDER.FEMALE;
 import static controller.SignUpController.GENDER.MALE;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,15 +11,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import main.MyApplication;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.PasswordField;
@@ -62,7 +54,7 @@ public class SignUpController implements Initializable, ControlScreen {
         MALE
     }
     private GENDER gender = FEMALE;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
@@ -71,61 +63,61 @@ public class SignUpController implements Initializable, ControlScreen {
     public void setParentScreen(ScreensController screenParent) {
         myController = screenParent;
     }
+
     @FXML
-    public void handleFemaleButton(){
-        if(gender == MALE){
+    public void handleFemaleButton() {
+        if (gender == MALE) {
             gender = FEMALE;
         }
     }
-    
+
     @FXML
-    public void handleMaleButton(){
-        if(gender == FEMALE){
+    public void handleMaleButton() {
+        if (gender == FEMALE) {
             gender = MALE;
         }
     }
-    
+
     @FXML
     public void handleSave() {
         UserModel newUser = new UserModel();
         Properties prop = new Properties();
-        InputStream input = null;
+        InputStream input;
         OutputStream output = null;
         String result;
         boolean repeated = false;
-        int idx = 0;
-        String userName = usernameInput.getText();
-        String password = passwordInput.getText();
-        int age = Integer.parseInt(ageInput.getText());
-        String adress = adressInput.getText();
-                
+        int idx;
+
         try {
-            input = new FileInputStream("userData.properties");
-            prop.load(input);
-
-            if (prop.isEmpty()) {
-                idx = 1;
-            } else {
-                idx = (prop.size() / 2) + 1;
-            }
-
-            for(int i = 1; i < idx; i++){
-                result = prop.getProperty("user"+i, "lack");
-                if(result.equals(userName)){
-                    repeated = true;
-                }
-            }
-            input.close();
-
-            output = new FileOutputStream("userData.properties");
-            
-            if(repeated){
-                box.display("This username already exists! Choose diffrent one. ");
-            } else if (!usernameInput.getText().trim().isEmpty()
+            if (!usernameInput.getText().trim().isEmpty()
                     && !usernameInput.getText().trim().isEmpty()
                     && !passwordInput.getText().trim().isEmpty()
                     && !adressInput.getText().trim().isEmpty()
                     && !ageInput.getText().trim().isEmpty()) {
+
+                String userName = usernameInput.getText();
+                String password = passwordInput.getText();
+                int age = Integer.parseInt(ageInput.getText());
+                String adress = adressInput.getText();
+
+                input = new FileInputStream("userData.properties");
+                prop.load(input);
+
+                if (prop.isEmpty()) {
+                    idx = 1;
+                } else {
+                    idx = (prop.size() / 2) + 1;
+                }
+
+                for (int i = 1; i < idx; i++) {
+                    result = prop.getProperty("user" + i, "lack");
+                    if (result.equals(userName)) {
+                        repeated = true;
+                    }
+                }
+                input.close();
+
+                output = new FileOutputStream("userData.properties");
 
                 newUser.setUserName(userName);
                 newUser.setPassword(password);
@@ -133,41 +125,30 @@ public class SignUpController implements Initializable, ControlScreen {
                 newUser.setAdress(adress);
 
                 if (gender == FEMALE) {
-                            newUser.setGender("female");
-                        } else {
-                            newUser.setGender("male");
-                        }
-                
+                    newUser.setGender("female");
+                } else {
+                    newUser.setGender("male");
+                }
+
                 prop.setProperty("user" + idx, newUser.getUserName());
                 prop.setProperty("user" + idx + "pass", newUser.getPassword());
-            } else{
+                prop.store(output, null);
+
+                myController.setScreen(MyApplication.screenLogIn);
+            } else if (repeated) {
+                box.display("This username already exists! Choose diffrent one. ");
+            } else {
                 box.display("Complete your username and password!");
             }
-            /*toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-                public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
-
-                    if (toggleGroup.getSelectedToggle() != null) {
-
-                        if (toggleGroup.getSelectedToggle().getUserData().equals(femaleButton)) {
-                            newUser.setGender("female");
-                        } else {
-                            newUser.setGender("male");
-                        }
-
-                    }
-
-                }
-            });*/
-            prop.store(output, null);
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("SignUpController - IOException.");
         } finally {
             if (output != null) {
                 try {
                     output.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("SignUpController output.close() - IOException.");
                 }
             }
         }
@@ -178,7 +159,6 @@ public class SignUpController implements Initializable, ControlScreen {
         passwordInput.clear();
         ageInput.clear();
         adressInput.clear();
-        myController.setScreen(MyApplication.screenLogIn);
     }
 
     @FXML
@@ -190,39 +170,30 @@ public class SignUpController implements Initializable, ControlScreen {
         ageInput.clear();
         adressInput.clear();
     }
-    
+
     @FXML
     public void handleCancel() {
         myController.setScreen(MyApplication.screenLogIn);
     }
 
     public void handleEscPressed() {
-        escPressed.addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean werePressed, Boolean arePressed) {
-                closeProgram();
-            }
+        escPressed.addListener((ObservableValue<? extends Boolean> observable, Boolean werePressed, Boolean arePressed) -> {
+            closeProgram();
         });
 
-        borderPane.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent ke) {
-                if (ke.getCode() == KeyCode.ESCAPE) {
-                    escPressed.set(true);
-                }
+        borderPane.getScene().setOnKeyPressed((KeyEvent ke) -> {
+            if (ke.getCode() == KeyCode.ESCAPE) {
+                escPressed.set(true);
             }
         });
     }
 
     public void handleEscReleased() {
-        borderPane.getScene().setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent ke) {
-                if (ke.getCode() == KeyCode.ESCAPE) {
-                    escPressed.set(false);
-                }
+        borderPane.getScene().setOnKeyReleased((KeyEvent ke) -> {
+            if (ke.getCode() == KeyCode.ESCAPE) {
+                escPressed.set(false);
             }
         });
     }
-    
+
 }

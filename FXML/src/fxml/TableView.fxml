@@ -18,19 +18,23 @@
 <TableView fx:id="tableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TableViewController">
     <columns>
         <TableColumn fx:id="markColumn" prefWidth="165.0" text="Mark">
-            <cellValueFactory><PropertyValueFactory property="mark" />
+            <cellValueFactory>
+                <PropertyValueFactory property="mark" />
             </cellValueFactory>                  
         </TableColumn>
         <TableColumn fx:id="firstNameColumn" prefWidth="185.0" text="First name">
-            <cellValueFactory><PropertyValueFactory property="firstName" />
+            <cellValueFactory>
+                <PropertyValueFactory property="firstName" />
             </cellValueFactory>
         </TableColumn>
         <TableColumn fx:id="lastNameColumn" prefWidth="185.0" text="Last name">
-            <cellValueFactory><PropertyValueFactory property="lastName" />
+            <cellValueFactory>
+                <PropertyValueFactory property="lastName" />
             </cellValueFactory>
         </TableColumn>
         <TableColumn fx:id="ageColumn" prefWidth="165.0" text="Age">
-            <cellValueFactory><PropertyValueFactory property="age" />
+            <cellValueFactory>
+                <PropertyValueFactory property="age" />
             </cellValueFactory>
         </TableColumn>
     </columns>
