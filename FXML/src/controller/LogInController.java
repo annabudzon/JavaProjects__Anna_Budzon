@@ -1,59 +1,137 @@
 package controller;
 
-import fxml.ScreensController;
+import boxes.AlertBox;
 import boxes.ConfirmBox;
 import main.MyApplication;
 import static main.MyApplication.window;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+import model.UserModel;
+import user.UserSearcher;
 
 public class LogInController implements Initializable, ControlScreen {
-    ScreensController myController;
-    
-    @FXML TextField usernameInput;
-    @FXML PasswordField passwordInput;
-    @FXML Label error;
-    
-    
+   
+    private final AlertBox box = new AlertBox();
+    private ScreensController myController;
+    final BooleanProperty escPressed = new SimpleBooleanProperty(false);
+    public enum ACCESS {
+        GRANTED,
+        NOT_USER,
+        WRONG_PASSWORD,
+        EXCEPTION
+    }
     @FXML
-    protected void handleSignInEvent(){
-        error.setText("");
-        if (!passwordInput.getText().equals("1234") || !usernameInput.getText().equals("abudzon")) {
-            error.setText("Your username or password is incorrect!");
+    TextField usernameInput;
+    @FXML
+    PasswordField passwordInput;
+    @FXML
+    BorderPane borderPane;
+
+    @FXML
+    protected void handleSignInEvent() {
+        ACCESS pass;
+        UserModel newUser = new UserModel();
+        newUser.setPassword(passwordInput.getText());
+        newUser.setUserName(usernameInput.getText());
+        if (passwordInput.getText().trim().isEmpty() || usernameInput.getText().trim().isEmpty()){
+            box.display("Complete your username and password!");
+        }
+        
+        pass = UserSearcher.search(newUser);
+        
+       // if (!newUser.getPassword().equals("1234") || !newUser.getPassword().equals("abudzon")) {
+       switch(pass){
+            case GRANTED:
+               myController.setScreen(MyApplication.screenMain);
+               break;
+            case NOT_USER:
+                box.display("Your not the user! Sign in!");
+                
+               break;
+            case WRONG_PASSWORD:
+                box.display("Your password is incorrect!");
+                break;
+            default:
+                System.out.println("Pass exception - UserSearcher error.");
+                break;
+       }
+       usernameInput.clear();
+        passwordInput.clear();
+        /*
+       if(pass){
+            box.display("Your username or password is incorrect!");
             usernameInput.clear();
             passwordInput.clear();
+        }  
         
-        } else {
+        else {
             myController.setScreen(MyApplication.screenMain);
             usernameInput.clear();
             passwordInput.clear();
-        }
-        
+        }*/
     }
-    
+
     @FXML
-    protected void handleSignUpEvent(){
+    protected void handleSignUpEvent() {
         myController.setScreen(MyApplication.screenSignUp);
     }
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-    }    
-    
+    public void initialize(URL url, ResourceBundle rb) {          
+    }
+
     @Override
-    public void setParentScreen(ScreensController screenParent){
+    public void setParentScreen(ScreensController screenParent) {
         myController = screenParent;
     }
-    
-    public static void closeProgram(){
-        boolean answer = ConfirmBox.display("Closing window", "Sure you want to exit?");
-        if(answer)
+
+    public static void closeProgram() {
+        ConfirmBox box = new ConfirmBox();
+        boolean answer = box.display("Closing window", "Sure you want to exit?");
+        if (answer) {
             window.close();
+        }
     }
-    
+
+    public void handleEscPressed(){
+        escPressed.addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean werePressed, Boolean arePressed) {
+                closeProgram();
+            }    
+        });
+        
+        borderPane.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode() == KeyCode.ESCAPE) {
+                    escPressed.set(true);
+                }
+            }
+        });
+    }
+            
+    public void handleEscReleased() {
+        borderPane.getScene().setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode() == KeyCode.ESCAPE) {
+                    escPressed.set(false);
+                }
+            }
+        });
+    }
+
 }

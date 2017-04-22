@@ -1,17 +1,26 @@
 package boxes;
 
+import static controller.LogInController.closeProgram;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ConfirmBox {
     static boolean answer;
+    final BooleanProperty enterPressed = new SimpleBooleanProperty(false);
     
-    public static boolean display(String title, String message){
+    public boolean display(String title, String message){
         Stage window = new Stage();
         window.setTitle(title);
         window.initModality(Modality.APPLICATION_MODAL);
@@ -34,8 +43,33 @@ public class ConfirmBox {
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout);
         window.setScene(scene);
-        window.showAndWait();
+                
+        enterPressed.addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean werePressed, Boolean arePressed) {
+                answer = true;
+                window.close();
+            }
+        });
+
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode() == KeyCode.ENTER) {
+                    enterPressed.set(true);
+                }
+            }
+        });
+        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode() == KeyCode.ENTER) {
+                    enterPressed.set(false);
+                }
+            }
+        });
         
+        window.showAndWait();
         return answer;
     }
     

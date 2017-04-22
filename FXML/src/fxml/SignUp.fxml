@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SignUpController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleEscPressed" onKeyReleased="#handleEscReleased" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SignUpController">
    <center>
       <GridPane alignment="CENTER" hgap="20.0" vgap="8.0" BorderPane.alignment="CENTER_LEFT">
         <columnConstraints>
@@ -34,17 +34,17 @@
             <TextField fx:id="adressInput" maxWidth="-Infinity" minWidth="100.0" prefWidth="150.0" promptText="adress" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
-                  <RadioButton fx:id="femaleButton" mnemonicParsing="false" text="Female">
+                  <RadioButton fx:id="femaleButton" mnemonicParsing="false" onAction="#handleFemaleButton" text="Female" toggleGroup="$toggleGroup">
                      <toggleGroup>
                         <ToggleGroup fx:id="toggleGroup" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="maleButton" mnemonicParsing="false" text="Male" toggleGroup="$toggleGroup" />
+                  <RadioButton fx:id="maleButton" mnemonicParsing="false" onAction="#handleMaleButton" text="Male" toggleGroup="$toggleGroup" />
                </children>
             </VBox>
             <HBox spacing="5.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                <children>
-                  <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSave" text="Save" />
+                  <Button fx:id="saveButton" defaultButton="true" mnemonicParsing="false" onAction="#handleSave" text="Save" />
                   <Button fx:id="clearButton" mnemonicParsing="false" onAction="#handleClear" text="Clear" />
                   <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
                </children>

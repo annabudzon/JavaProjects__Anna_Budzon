@@ -1,28 +1,28 @@
 package logger;
 
-import fxml.Crawler.STATUS;
-import controller.MyController;
-import model.Student;
+import crawler.Crawler.STATUS;
+import controller.MainScreenController;
+import model.StudentModel;
 
 public class GUILogger  implements Logger {
   
-        private MyController controller;
+    private MainScreenController controller;
+    
     public GUILogger() {}
     
     @Override
-    public void log(STATUS status, Student student, MyController control){
+    public void log(STATUS status, StudentModel student, MainScreenController control){
         controller = control;
                
             switch(status){
             case ADDED:
                 controller.setTextArea("Status: -----ADDED: "+student+"\n");
                 controller.addRow(student);
-                controller.loadBarChart();
+                
                 break;
             case REMOVED:
                 controller.setTextArea("Status: -----REMOVED: "+student+"\n");
-                controller.deleteRow(student);
-                controller.loadBarChart();                
+                controller.deleteRow(student);               
                 break;
             case UNCHANGED:
                 controller.setTextArea("Status: -----UNCHANGED-----\n");
@@ -34,8 +34,8 @@ public class GUILogger  implements Logger {
     public void log(STATUS status, int iteracja){
     }
     @Override
-    public void log(STATUS status, MyController control){
-        Student student = null;
+    public void log(STATUS status, MainScreenController control){
+        StudentModel student = null;
         this.log(status,student,control);  
     }  
 }

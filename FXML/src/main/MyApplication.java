@@ -1,7 +1,7 @@
 package main;
 
 import boxes.ConfirmBox;
-import fxml.ScreensController;
+import controller.ScreensController;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -16,19 +16,20 @@ import javafx.stage.Stage;
 
 public class MyApplication {
     public static String screenLogIn = "logIn";
-    public static String screenLogInFile = "LogIn.fxml";
+    public static String screenLogInFile = "/fxml/LogIn.fxml";
     public static String screenSignUp = "signUp";
-    public static String screenSignUpFile = "SignUp.fxml";
+    public static String screenSignUpFile = "/fxml/SignUp.fxml";
     public static String screenMain = "myController";
-    public static String screenMainFile = "FXMLDocument.fxml";
+    public static String screenMainFile = "/fxml/MainScreen.fxml";
     public static Stage window;
         
     public static void startApplication(Stage stage) {
-        final BooleanProperty spacePressed = new SimpleBooleanProperty(false);
-        final BooleanProperty rightPressed = new SimpleBooleanProperty(false);
-        final BooleanBinding spaceAndRightPressed = spacePressed.and(rightPressed);
+        final BooleanProperty controlPressed = new SimpleBooleanProperty(false);
+        final BooleanProperty cPressed = new SimpleBooleanProperty(false);
+        final BooleanBinding spaceAndRightPressed = controlPressed.and(cPressed);
         window = stage;
         window.setTitle("CRAWLER 3.0");
+        window.setResizable(false);
         window.setOnCloseRequest(e -> {
             e.consume();
             closeProgram();
@@ -58,9 +59,9 @@ public class MyApplication {
              @Override
             public void handle(KeyEvent ke) {
                 if (ke.getCode() == KeyCode.CONTROL) {
-                    spacePressed.set(true);
+                    controlPressed.set(true);
                 } else if (ke.getCode() == KeyCode.C) {
-                    rightPressed.set(true);
+                    cPressed.set(true);
                 }
             }
         });
@@ -69,9 +70,9 @@ public class MyApplication {
             @Override
             public void handle(KeyEvent ke) {
                 if (ke.getCode() == KeyCode.CONTROL) {
-                    spacePressed.set(false);
+                    controlPressed.set(false);
                 } else if (ke.getCode() == KeyCode.C) {
-                    rightPressed.set(false);
+                    cPressed.set(false);
                 }
             }
         });
@@ -80,7 +81,8 @@ public class MyApplication {
     }
 
     public static void closeProgram(){
-        boolean answer = ConfirmBox.display("Closing window", "Sure you want to exit?");
+        ConfirmBox box = new ConfirmBox();
+        boolean answer = box.display("Closing window", "Sure you want to exit?");
         if(answer)
             window.close();
     }

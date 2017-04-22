@@ -1,8 +1,8 @@
 
 package controller;
 
-import model.Model;
-import model.Student;
+import student.StudentsHandling;
+import model.StudentModel;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -16,25 +16,25 @@ import javafx.scene.control.TableView;
 
 public class TableViewController implements Initializable {   
     @FXML private TableView tableView;
-    private Model model;
+    private StudentsHandling model;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {}    
     
-    public void loadTableView(String adress, Model m){
+    public void loadTableView(String adress, StudentsHandling m){
         this.model = m;
         this.model.loadData(new File(adress));
         tableView.getItems().setAll(model.getStudentList());
     }
     
-    public void addStudent(Model m, Student s){
+    public void addStudent(StudentsHandling m, StudentModel s){
         this.model = m;
         if(!tableView.getItems().contains(s)){
             tableView.getItems().add(s);
         }
     }
     
-    public void addInputStudent(String adress, Model m, Student s){
+    public void addInputStudent(String adress, StudentsHandling m, StudentModel s){
         this.model = m;
         if(!tableView.getItems().contains(s)){
             tableView.getItems().add(s);
@@ -42,13 +42,13 @@ public class TableViewController implements Initializable {
             this.model.saveData(f,s);
         }
     }
-    public void deleteSelectedStudent(String adress, Model m){
+    public void deleteSelectedStudent(String adress, StudentsHandling m){
         this.model = m;
-        ObservableList<Student> selected, allStudents;
+        ObservableList<StudentModel> selected, allStudents;
         
         allStudents = tableView.getItems();
         selected = tableView.getSelectionModel().getSelectedItems();
-        List<Student> st = new ArrayList<>(selected);
+        List<StudentModel> st = new ArrayList<>(selected);
         selected.forEach(allStudents::remove);
         
         File inputFile = new File(adress);
@@ -58,10 +58,10 @@ public class TableViewController implements Initializable {
         this.model.deleteData(inputFile, tempFile, st);    
     }
     
-    public void deleteStudent(String adress, Student student){
+    public void deleteStudent(String adress, StudentModel student){
         if(tableView.getItems().contains(student)){
-            ObservableList<Student>  allStudents = tableView.getItems();
-            ObservableList<Student> remove = FXCollections.observableArrayList();
+            ObservableList<StudentModel>  allStudents = tableView.getItems();
+            ObservableList<StudentModel> remove = FXCollections.observableArrayList();
             remove.add(student);
             remove.forEach(allStudents::remove);
         }
