@@ -1,0 +1,10 @@
+﻿
+4.5;Kacper;Wrona;22
+2.5;Gabriela;Janusz;23
+3.0;Marek;Marek;25
+3.5;Wioletta;Mazurek;27
+3.0;Katarzyna;Kwiatkowska;21
+
+
+
+

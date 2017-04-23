@@ -1,0 +1,8 @@
+﻿
+2.0;Ola;Ula;21
+4.5;Jakub;Przykladny;20
+3.5;Martyna;Chyba;21
+
+
+
+
