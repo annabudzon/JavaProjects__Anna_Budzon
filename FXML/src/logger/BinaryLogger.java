@@ -31,25 +31,34 @@ public class BinaryLogger implements Logger, Closeable {
     @Override
     public void log(STATUS status, StudentModel student, MainScreenController control) {
         LoggedStudent logSt = new LoggedStudent(student, status);
-        String newLine = System.getProperty("line.separator");
         int st;
         if (logSt.getStatus() == ADDED) {
             st = 0;
         } else {
             st = 1;
         }
-        String data = logSt.getTime() + ";" + st + ";" + logSt.getMark() + ";" + logSt.getFirstName() + ";" + logSt.getLastName() + ";" + logSt.getAge() + newLine;
+
         try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(file, true))) {
-            byte[] line = data.getBytes("UTF-8");
-            dataOutputStream.write(line);
+            byte[] name = logSt.getFirstName().getBytes("UTF-8");
+            byte[] lastName = logSt.getLastName().getBytes("UTF-8");
+
+            dataOutputStream.writeLong(logSt.getTime());
+            dataOutputStream.writeInt(st);
+            dataOutputStream.writeDouble(logSt.getMark());
+            dataOutputStream.write(name);
+            dataOutputStream.write(';');
+            dataOutputStream.write(lastName);
+            dataOutputStream.write(';');
+            dataOutputStream.writeInt(logSt.getAge());
+            dataOutputStream.writeChar('\n');
         } catch (IOException e) {
             System.out.println("BinaryLogger DataOutputStream - IOException");
         }
-        
-        /*List<LoggedStudent> trial = getlistStudents(adress);
+
+        List<LoggedStudent> trial = getlistStudents(adress);
         for (LoggedStudent l : trial) {
             System.out.println(l);
-        }*/
+        }
     }
 
     @Override
@@ -67,38 +76,46 @@ public class BinaryLogger implements Logger, Closeable {
     public List<LoggedStudent> getlistStudents(String adress) {
         String line;
         LoggedStudent student = new LoggedStudent();
+        char lineSep = System.getProperty("line.separator").charAt(0);
 
         try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(adress))) {
             while (dataInputStream.available() > 0) {
-                line = dataInputStream.readLine();
-                String[] parts = line.split(";");
 
-                if (parts.length == 4) {
-                    for (String el : parts) {
-                        if (el.isEmpty()) {
-                            return null;
-                        }
-                    }
+                student.setTime(dataInputStream.readLong());
+                if (dataInputStream.readInt() == 0) {
+                    student.setStatus(ADDED);
+                } else {
+                    student.setStatus(REMOVED);
+                }
 
-                    try {
-                        student.setTime(Long.parseLong(parts[0]));
-                        if ((Integer.parseInt(parts[1])) == 0) {
-                            student.setStatus(ADDED);
-                        } else {
-                            student.setStatus(REMOVED);
-                        }
-                        student.setMark(Double.parseDouble(parts[2]));
-                        student.setFirstName(parts[3]);
-                        student.setLastName(parts[4]);
-                        student.setAge(Integer.parseInt(parts[5]));
-                    } catch (NumberFormatException e) {
-                        return null;
-                    }
+                student.setMark(dataInputStream.readDouble());
+
+                StringBuilder name = new StringBuilder();
+                char ch;
+                int i = 0;
+                while ((ch = (char) dataInputStream.readByte()) != ';') {
+                    name.append(ch);
+                    i++;
+                }
+
+                student.setFirstName(name.toString());
+
+                StringBuffer lastName = new StringBuffer();
+                while ((ch = (char) dataInputStream.readByte()) != ';') {
+                    lastName.append(ch);
+                }
+
+                student.setLastName(lastName.toString());
+                student.setAge(dataInputStream.readInt());
+                if (dataInputStream.readChar() == lineSep) {
+                    System.out.println("End of line.");
                 }
             }
         } catch (IOException e) {
+            e.printStackTrace();
             System.out.println("BinaryLogger DataInputStream - IOException");
         }
+        loggedStudents.add(student);
         return loggedStudents;
     }
 }
