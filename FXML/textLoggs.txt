@@ -5,3 +5,15 @@
 -----ADDED:    Filip   Wrona   3.5   22
 -----ADDED:    Hubert   Grzyb   4.5   22
 -----ADDED:    Bogdan   Krzaczek   3.5   23
+---ITERATION COMPLETED: 1
+---ITERATION STARTED: 2
+-----UNCHANGED-----
+---ITERATION COMPLETED: 2
+---ITERATION STARTED: 3
+-----UNCHANGED-----
+---ITERATION COMPLETED: 3
+---ITERATION STARTED: 4
+-----ADDED:    Anna   Budzon   5.0   21
+---ITERATION COMPLETED: 4
+---ITERATION STARTED: 5
+-----UNCHANGED-----
