@@ -5,5 +5,3 @@
 -----ADDED:    Filip   Wrona   3.5   22
 -----ADDED:    Hubert   Grzyb   4.5   22
 -----ADDED:    Bogdan   Krzaczek   3.5   23
------ADDED:    Anna   Budzon   5.0   21
------ADDED:    Adrian   Kurek   5.0   25
