@@ -1,6 +1,11 @@
 package server;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
@@ -9,7 +14,7 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.channels.spi.SelectorProvider;
 import java.util.Iterator;
-import static message.MessageType.*;
+import message.MessageModel;
 
 public class Server implements Runnable {
 
@@ -58,6 +63,7 @@ public class Server implements Runnable {
         try {
             serverChannel.close();
         } catch (IOException e) {
+            e.printStackTrace();
             logger("Error occured during server stop.");
         }
     }
@@ -67,7 +73,6 @@ public class Server implements Runnable {
         while (true) {
             start();
         }
-
     }
 
     private Selector initSelector() throws IOException {
@@ -94,6 +99,8 @@ public class Server implements Runnable {
         logger("Reading data from client");
 
         SocketChannel clientChannel = (SocketChannel) key.channel();
+
+        MessageModel message = new MessageModel();
         ByteBuffer buffer = ByteBuffer.allocate(BUFFER_SIZE);
         buffer.clear();
         int read = 0;
@@ -101,73 +108,72 @@ public class Server implements Runnable {
         try {
             read = clientChannel.read(buffer);
         } catch (IOException e) {
+            e.printStackTrace();
             key.cancel();
             clientChannel.close();
             return;
         }
+
         if (read == -1) {
             key.channel().close();
             key.cancel();
             return;
         }
-        buffer.flip();
-        String data = new String(buffer.array()).trim();
-        if (data.length() > 0) {
-            logger(String.format("%s\n", data));
-            String message = defineTypeMessage(data);
+
+        if (read > 0) {
+
+            InputStream bais;
+            buffer.flip();
+            try (ObjectInputStream ois = new ObjectInputStream(bais = new ByteArrayInputStream(buffer.array(), 0, buffer.limit()))) {
+                message = (MessageModel) ois.readObject();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+                key.cancel();
+                key.channel().close();
+                clientChannel.close();
+                return;
+            }
+        } else {
+            logger("Nothing has been read. \n");
+        }
+
+        if (message.getMessage().length() > 0 && message.getUserName().length() > 0 && message.getType() != 0) {
+            logger(String.format("%s\n", message.toString()));
             broadcast(message, key);
+        } else {
+            logger("Fields: message, userName and type are empty.\n");
         }
     }
 
-    private void broadcast(String msg, SelectionKey k) throws IOException {
-        ByteBuffer msgBuf = ByteBuffer.wrap(msg.getBytes());
-        logger("Broadcasting message to all clients: " + msg);
+    private void broadcast(MessageModel msg, SelectionKey k) throws IOException {
+        logger("Broadcasting message to all clients: " + msg.getMessage());
+
+        ByteArrayOutputStream baos;
+
         for (SelectionKey key : selector.keys()) {
             if (key.isValid() && key.channel() instanceof SocketChannel && key != k) {
                 SocketChannel sch = (SocketChannel) key.channel();
                 sch.register(selector, SelectionKey.OP_WRITE);
-                sch.write(msgBuf);
-                msgBuf.rewind();
-                sch.register(selector, SelectionKey.OP_READ);
+                ByteBuffer buffer = ByteBuffer.allocate(BUFFER_SIZE);
+                buffer.flip();
+
+                try (ObjectOutputStream outputStream = new ObjectOutputStream(baos = new ByteArrayOutputStream())) {
+                    outputStream.reset();
+                    outputStream.writeObject(msg);
+                    outputStream.flush();
+                    buffer = ByteBuffer.wrap(baos.toByteArray());
+                    sch.write(buffer);
+                    outputStream.flush();
+                    baos.flush();
+                    sch.register(selector, SelectionKey.OP_READ);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    logger("Error while sending the message: " + msg.getMessage());
+                    return;
+                }
             }
         }
-    }
-
-    public String defineTypeMessage(String msg) {
-        String[] parts = msg.split(":");
-        int type = Integer.parseInt(parts[0]);
-        String name = parts[1].replaceAll(" ", "");
-
-        switch (type) {
-            case REGISTER:
-                msg = "REGISTERED: " + parts[1] + "\n";
-                break;
-            case CONNECTED:
-                msg = "CONNECTED: " + parts[1] + "\n";
-                break;
-            case LOGIN:
-                msg = "LOGIN: " + parts[1] + "\n";
-                break;
-            case LOGOUT:
-                msg = "LOGOUT: " + parts[1] + "\n";
-                break;
-            case MESSAGE:
-                msg = parts[1] + ": " + parts[2] + "\n";
-                break;
-            case ERROR:
-                msg = "ERROR: " + parts[1] + "\n";
-                break;
-            case ADDED:
-                msg = "ADDED:" + name;// + "\n";
-                break;
-            case REMOVED:
-                msg = "REMOVED:" + name;// + "\n";
-                break;
-            default:
-                System.out.println("Unvalid type.\n");
-                break;
-        }
-        return msg;
     }
 
     public static void logger(String msg) {

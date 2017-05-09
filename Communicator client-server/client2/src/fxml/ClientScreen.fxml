@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="vBox" minHeight="-Infinity" minWidth="-Infinity" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ClientScreenController">
+    <children>
+        <MenuBar>
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem fx:id="logoutMenuItem" mnemonicParsing="false" onAction="#handleLogout" text="Log out" />
+                  <MenuItem fx:id="closeMenuItem1" mnemonicParsing="false" onAction="#handleClose" text="Close" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Connection">
+                    <items>
+                        <RadioMenuItem fx:id="connectRadio" mnemonicParsing="false" onAction="#handleConnect" selected="true" text="Connect">
+                            <toggleGroup>
+                                <ToggleGroup fx:id="toggleConnection" />
+                            </toggleGroup>
+                        </RadioMenuItem>
+                        <RadioMenuItem fx:id="disconnectRadio" mnemonicParsing="false" onAction="#handleDisconnect" text="Disconnect" toggleGroup="$toggleConnection" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+            <children>
+                <BorderPane>
+                    <center>
+                        <fx:include fx:id="textAreaControl" source="TextArea.fxml" />
+                    </center>
+               <bottom>
+                  <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <HTMLEditor fx:id="messageField" htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="600.0" />
+                                <Button fx:id="sendButton" defaultButton="true" mnemonicParsing="false" onAction="#handleSend" text="Send" />
+                     </children>
+                  </VBox>
+               </bottom>
+                </BorderPane>
+                <fx:include fx:id="tableViewControl" source="TableView.fxml" />
+            </children>
+        </HBox>
+    </children>
+</VBox>
