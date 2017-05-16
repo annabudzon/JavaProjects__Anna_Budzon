@@ -28,7 +28,7 @@ public class TextLogger implements Logger, Closeable {
     }
 
     @Override
-    public void log(STATUS status, StudentModel student, MainScreenController control) {
+    public void log(STATUS status, StudentModel student) {
         String newLine = "\r\n";
 
         try (FileWriter fw = new FileWriter(file, true);) {
@@ -64,7 +64,7 @@ public class TextLogger implements Logger, Closeable {
     }
 
     @Override
-    public void log(STATUS status, MainScreenController control) {
+    public void log(STATUS status) {
         String newLine = "\r\n";
 
         try (FileWriter fw = new FileWriter(file, true);) {

@@ -29,7 +29,7 @@ public class BinaryLogger implements Logger, Closeable {
     }
 
     @Override
-    public void log(STATUS status, StudentModel student, MainScreenController control) {
+    public void log(STATUS status, StudentModel student) {
         LoggedStudent logSt = new LoggedStudent(student, status);
         int st;
         if (logSt.getStatus() == ADDED) {
@@ -66,7 +66,7 @@ public class BinaryLogger implements Logger, Closeable {
     }
 
     @Override
-    public void log(STATUS status, MainScreenController control) {
+    public void log(STATUS status) {
     }
 
     @Override

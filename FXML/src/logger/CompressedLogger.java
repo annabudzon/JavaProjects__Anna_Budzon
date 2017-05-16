@@ -38,7 +38,7 @@ public class CompressedLogger implements Logger, Closeable {
     }
 
     @Override
-    public void log(STATUS status, StudentModel student, MainScreenController control) {
+    public void log(STATUS status, StudentModel student) {
         int idx = 0;
         try (ZipOutputStream outs = new ZipOutputStream(fos = new FileOutputStream(zip));) {
 
@@ -49,7 +49,7 @@ public class CompressedLogger implements Logger, Closeable {
             Date date = new Date();
             this.fileName = dateFormat.format(date) + ".txt";
             textLogger = new TextLogger(dir + "/" + fileName);
-            textLogger.log(status, student, control);
+            textLogger.log(status, student);
 
             for (File srcFile : files) {
                 String filepath = srcFile.getAbsolutePath();
@@ -79,7 +79,7 @@ public class CompressedLogger implements Logger, Closeable {
     }
 
     @Override
-    public void log(STATUS status, MainScreenController control) {
+    public void log(STATUS status) {
     }
 
     @Override

@@ -7,7 +7,7 @@ import model.StudentModel;
 public class ConsoleLogger implements Logger {
 
     @Override
-    public void log(STATUS status, StudentModel student, MainScreenController control) {
+    public void log(STATUS status, StudentModel student) {
         switch (status) {
             case ADDED:
                 System.out.println("-----ADDED: " + student);
@@ -32,7 +32,7 @@ public class ConsoleLogger implements Logger {
     }
 
     @Override
-    public void log(STATUS status, MainScreenController control) {
+    public void log(STATUS status) {
         System.out.println("-----UNCHANGED-----");
     }
 

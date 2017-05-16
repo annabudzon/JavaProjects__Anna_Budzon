@@ -16,7 +16,7 @@ public class AboutBox {
         window.initModality(Modality.APPLICATION_MODAL);
         window.setMinWidth(400);
 
-        Label label = new Label("Autor: Anna Budzon\nKierunek: Informatyka Stosowana\nRok studiow: 2");
+        Label label = new Label("Autor: Anna Budzon");
         Button backButton = new Button("Go back");
         backButton.setOnAction(e -> window.close());
 

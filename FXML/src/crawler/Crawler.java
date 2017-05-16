@@ -9,7 +9,6 @@ import static crawler.Crawler.STATUS.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import refresher.Refresher;
 
 public class Crawler {
 
@@ -18,7 +17,6 @@ public class Crawler {
     private final List<Logger> addRemoveStudentListeners = new ArrayList<>();
     private final List<Logger> addUnchangedListeners = new ArrayList<>();
     private final List<Logger> addNewStudentListeners = new ArrayList<>();
-    private final List<Refresher> barChartChangedListeners = new ArrayList<>();
     private List<StudentModel> previousStudents;
     private List<StudentModel> currentStudents;
     private final String adress = "students.txt";
@@ -79,14 +77,6 @@ public class Crawler {
         addUnchangedListeners.remove(listener);
     }
 
-    public void addbarChartChangedListener(Refresher listener) {
-        barChartChangedListeners.add(listener);
-    }
-
-    public void removebarChartChangedListener(Refresher listener) {
-        barChartChangedListeners.remove(listener);
-    }
-
     public void run() {
         StudentsListener handler;
         File f = new File(adress);
@@ -106,22 +96,16 @@ public class Crawler {
                 if (!currentStudents.isEmpty()) {
                     for (Logger l : addNewStudentListeners) {
                         for (StudentModel s : currentStudents) {
-                            l.log(ADDED, s, this.control);
+                            l.log(ADDED, s);
                         }
-                    }
-                    for (Refresher r : barChartChangedListeners) {
-                        r.refresh(currentStudents, this.control);
                     }
                 }
             } else if (currentStudents.isEmpty()) { //jeśli i = 1
                 if (!previousStudents.isEmpty()) {
                     for (Logger l : addRemoveStudentListeners) {
                         for (StudentModel s : previousStudents) {
-                            l.log(REMOVED, s, this.control);
+                            l.log(REMOVED, s);
                         }
-                    }
-                    for (Refresher r : barChartChangedListeners) {
-                        r.refresh(currentStudents, this.control);
                     }
                 }
             } else if (previousStudents.size() > currentStudents.size()) {
@@ -130,11 +114,8 @@ public class Crawler {
                 List<StudentModel> st = handler.removed(previousStudents, currentStudents);
                 for (StudentModel s : st) {
                     for (Logger l : addRemoveStudentListeners) {
-                        l.log(REMOVED, s, this.control);
+                        l.log(REMOVED, s);
                     }
-                }
-                for (Refresher r : barChartChangedListeners) {
-                    r.refresh(currentStudents, this.control);
                 }
             } else if (previousStudents.size() < currentStudents.size()) {
                 //dodano
@@ -143,16 +124,13 @@ public class Crawler {
 
                 for (StudentModel s : st) {
                     for (Logger l : addNewStudentListeners) {
-                        l.log(ADDED, s, this.control);
+                        l.log(ADDED, s);
                     }
-                }
-                for (Refresher r : barChartChangedListeners) {
-                    r.refresh(currentStudents, this.control);
                 }
             } else {
                 // nie zmodyfikowano  
                 for (Logger l : addUnchangedListeners) {
-                    l.log(UNCHANGED, this.control);
+                    l.log(UNCHANGED);
                 }
             }
 

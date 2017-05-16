@@ -22,7 +22,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import logger.BinaryLogger;
 import logger.CompressedLogger;
-import refresher.BarChartRefresher;
 import logger.Logger;
 import logger.TextLogger;
 import logger.GUILogger;
@@ -36,7 +35,7 @@ public class MainScreenController implements Initializable, ControlScreen {
     private final String SERIALIZEDADRESS = "serializedLoggs.bin";
     private final String BINARYADRESS = "binaryLoggs.bin";
     public Logger[] loggers = new Logger[]{
-        new GUILogger(),
+        new GUILogger(this),
         new ConsoleLogger(),
         new TextLogger(TEXTADRESS),
         new CompressedLogger(COMPRESSEDADRESS),
@@ -75,8 +74,6 @@ public class MainScreenController implements Initializable, ControlScreen {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Crawler crawler = new Crawler(this);
-        BarChartRefresher barRefresh = new BarChartRefresher();
-        crawler.addbarChartChangedListener(barRefresh);
         for (Logger l : loggers) {
             crawler.addNewStudentListener(l);
             crawler.addRemoveStudentListener(l);
@@ -126,7 +123,7 @@ public class MainScreenController implements Initializable, ControlScreen {
         String name = firstNameInput.getText();
         String lastName = lastNameInput.getText();
         String age = ageInput.getText();
-        if (mark.trim().isEmpty() || name.trim().isEmpty() || lastName.trim().isEmpty() || age.trim().isEmpty() || !age.matches("\\d*") || !mark.matches("[2-4](\\.[0,5]{1,2}){0,1}|5(\\.0{1,2}){0,1}") || name.matches("[0-9]") || name.matches("[\\\\!\"#$%&()*+,./:;<=>?@\\[\\]^_{|}~]+") || lastName.matches("[0-9]") || lastName.matches("[\\\\!\"#$%&()*+,./:;<=>?@\\[\\]^_{|}~]+")) {
+        if (mark.trim().isEmpty() || name.trim().isEmpty() || lastName.trim().isEmpty() || age.trim().isEmpty() || !age.matches("\\d*") || !mark.matches("[2-4](\\.[0,5]{1,2}){0,1}|5(\\.0{1,2}){0,1}") /*|| name.matches("[0-9]")*/ || name.matches("[\\\\!\"#$%&()*+,./:;<=>?@\\[\\]^_{|}~]+") || lastName.matches("[0-9]") || lastName.matches("[\\\\!\"#$%&()*+,./:;<=>?@\\[\\]^_{|}~]+")) {
             AlertBox box = new AlertBox();
             box.display("Niepoprawne dane!");
         } else {
@@ -152,11 +149,19 @@ public class MainScreenController implements Initializable, ControlScreen {
     public void setTextArea(String logg) {
         this.textAreaControlController.setTextArea(logg);
     }
-
+/*
     public void loadBarChart(List<StudentModel> students) {
         this.barChartControlController.loadBarChart(students);
+    }*/
+
+    public synchronized void updateChartAdd(double mark) {
+        this.barChartControlController.updateChartAdd(mark);
     }
 
+    public synchronized void updateChartRemove(double mark) {
+        this.barChartControlController.updateChartRemove(mark);
+    }
+    
     public void addRow(StudentModel student) {
         this.tabViewControlController.addStudent(model, student);
     }

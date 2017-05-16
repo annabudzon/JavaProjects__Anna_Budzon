@@ -8,22 +8,23 @@ public class GUILogger implements Logger {
 
     private MainScreenController controller;
 
-    public GUILogger() {
+    public GUILogger(MainScreenController control) {
+        this.controller = control;
     }
 
     @Override
-    public void log(STATUS status, StudentModel student, MainScreenController control) {
-        controller = control;
+    public void log(STATUS status, StudentModel student) {
 
         switch (status) {
             case ADDED:
                 controller.setTextArea("Status: -----ADDED: " + student + "\n");
                 controller.addRow(student);
-
+                controller.updateChartAdd(student.getMark());
                 break;
             case REMOVED:
                 controller.setTextArea("Status: -----REMOVED: " + student + "\n");
                 controller.deleteRow(student);
+                controller.updateChartRemove(student.getMark());
                 break;
             case UNCHANGED:
                 controller.setTextArea("Status: -----UNCHANGED-----\n");
@@ -36,8 +37,8 @@ public class GUILogger implements Logger {
     }
 
     @Override
-    public void log(STATUS status, MainScreenController control) {
+    public void log(STATUS status) {
         StudentModel student = null;
-        this.log(status, student, control);
+        this.log(status, student);
     }
 }

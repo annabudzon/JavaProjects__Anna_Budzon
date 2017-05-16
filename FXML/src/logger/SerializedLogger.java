@@ -30,11 +30,9 @@ public class SerializedLogger implements Logger, Closeable {
     }
 
     @Override
-    public void log(STATUS status, StudentModel student, MainScreenController control) {
+    public void log(STATUS status, StudentModel student) {
         LoggedStudent logSt = new LoggedStudent(student, status);
-        //List<LoggedStudent> previousLogged = new ArrayList<>();
 
-        //if (!ifExists) {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(file))) {
             outputStream.reset();
             outputStream.writeObject(logSt);
@@ -42,31 +40,6 @@ public class SerializedLogger implements Logger, Closeable {
         } catch (IOException e) {
             System.out.println("SerializedLogger logs 1: IOException.");
         }
-        /*  } else {
-            try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("test", true)) {
-                @Override
-                protected void writeStreamHeader() throws IOException {
-                    reset();
-                }
-            };) {
-                outputStream.writeObject(logSt);
-
-            } catch (IOException e) {
-                System.out.println("SerializedLogger logs 2: IOException.");
-            }
-            try (AppendingObjectOutputStream outputStream = new AppendingObjectOutputStream(new FileOutputStream(file,true))) {
-                outputStream.writeObject(logSt);
-                
-            } catch (IOException e) {
-                System.out.println("SerializedLogger logs 2: IOException.");
-            }
-        }*/
-
-        /*List<LoggedStudent> trial = getlistStudents(adress);
-        for (LoggedStudent l : trial) {
-            System.out.println(l);
-        }*/
-
     }
 
     @Override
@@ -74,7 +47,7 @@ public class SerializedLogger implements Logger, Closeable {
     }
 
     @Override
-    public void log(STATUS status, MainScreenController control) {
+    public void log(STATUS status) {
     }
 
     @Override

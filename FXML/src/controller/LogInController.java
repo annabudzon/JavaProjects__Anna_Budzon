@@ -50,7 +50,6 @@ public class LogInController implements Initializable, ControlScreen {
 
         pass = UserSearcher.search(newUser);
 
-        // if (!newUser.getPassword().equals("1234") || !newUser.getPassword().equals("abudzon")) {
         switch (pass) {
             case GRANTED:
                 myController.setScreen(MyApplication.screenMain);
@@ -68,18 +67,6 @@ public class LogInController implements Initializable, ControlScreen {
         }
         usernameInput.clear();
         passwordInput.clear();
-        /*
-       if(pass){
-            box.display("Your username or password is incorrect!");
-            usernameInput.clear();
-            passwordInput.clear();
-        }  
-        
-        else {
-            myController.setScreen(MyApplication.screenMain);
-            usernameInput.clear();
-            passwordInput.clear();
-        }*/
     }
 
     @FXML
