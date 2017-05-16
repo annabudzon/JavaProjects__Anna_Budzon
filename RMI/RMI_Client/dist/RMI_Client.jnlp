@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="RMI_Client.jnlp">
+  <information>
+    <title>RMI_Client</title>
+    <vendor>Ania</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" java-vm-args="-Djava.security.manager -Djava.security.policy=src/policy/client.policy "  href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="RMI_Client.jar" size="31456" download="eager" />
+    <jar href="lib\RMI_Interface.jar" size="4410" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="RMI_Client" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="main.Main"  name="RMI_Client" />
+  <update check="always"/>
+</jnlp>
