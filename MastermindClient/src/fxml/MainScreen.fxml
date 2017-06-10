@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.canvas.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainScreenController">
+
+   <children>
+      <MenuBar>
+         <menus>
+            <Menu mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem fx:id="menuItemClose" mnemonicParsing="false" onAction="#handleClose" text="Close" />
+                  <MenuItem fx:id="backMenuItem" mnemonicParsing="false" onAction="#backMenuHandle" text="Back to Menu" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+         <children>
+            <VBox alignment="TOP_CENTER">
+               <children>
+                  <fx:include fx:id="gameControl" source="Game.fxml" />
+               </children>
+            </VBox>
+            <Separator orientation="VERTICAL" prefWidth="8.0" />
+            <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefWidth="485.0">
+               <children>
+                  <fx:include fx:id="messageBoxControl" source="MessageBox.fxml" />
+                  <ToolBar prefHeight="40.0" prefWidth="150.0" styleClass="background" stylesheets="@../css/design.css">
+                     <items>
+                        <TextField fx:id="messageField" minHeight="-Infinity" minWidth="-Infinity" prefWidth="408.0" promptText="Write some message here" />
+                        <Button fx:id="sendButton" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#sendHandle" stylesheets="@../css/design.css" text="Send" />
+                     </items>
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </ToolBar>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>
