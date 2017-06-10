@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.canvas.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox id="vBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MessageBoxController">
+    <children>
+        <TextArea fx:id="messageArea" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="480.0" VBox.vgrow="ALWAYS">
+            <VBox.margin>
+                <Insets right="7.0" top="5.0" />
+            </VBox.margin>
+        </TextArea>
+    </children>
+</VBox>

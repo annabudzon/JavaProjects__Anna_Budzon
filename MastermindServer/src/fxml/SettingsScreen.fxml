@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane prefHeight="540.0" prefWidth="960.0" style="-fx-background-image: url(&quot;images/menu.jpg&quot;);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SettingsScreenController">
+   <children>
+      <BorderPane StackPane.alignment="CENTER">
+         <center>
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="550.0" spacing="20.0" style="-fx-background-color: rgba(100, 100, 150, 0.3); -fx-background-radius: 20;" BorderPane.alignment="CENTER">
+               <children>
+                  <RadioButton mnemonicParsing="false" text="Turn on/off music" textFill="#e8e3e3">
+                     <font>
+                        <Font name="Arial Black" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </RadioButton>
+                  <HBox maxHeight="-Infinity" spacing="30.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label text="Number of players:" textFill="#dddbdb">
+                           <font>
+                              <Font name="Arial Black" size="18.0" />
+                           </font>
+                        </Label>
+                        <MenuButton mnemonicParsing="false" text="Choose">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Singleplayer" />
+                            <MenuItem mnemonicParsing="false" text="Multiplayer" />
+                          </items>
+                        </MenuButton>
+                     </children>
+                  </HBox>
+                  <HBox spacing="40.0">
+                     <children>
+                        <Label text="Number of colors:" textFill="#dddbdb">
+                           <font>
+                              <Font name="Arial Black" size="18.0" />
+                           </font>
+                        </Label>
+                        <MenuButton mnemonicParsing="false" text="Choose">
+                           <items>
+                              <MenuItem mnemonicParsing="false" text="4" />
+                              <MenuItem mnemonicParsing="false" text="5" />
+                              <MenuItem mnemonicParsing="false" text="6" />
+                           </items>
+                        </MenuButton>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="137.0" spacing="20.0">
+                     <children>
+                        <Label text="Number of guesses:" textFill="#dddbdb">
+                           <font>
+                              <Font name="Arial Black" size="18.0" />
+                           </font>
+                        </Label>
+                        <MenuButton mnemonicParsing="false" text="Choose">
+                           <items>
+                              <MenuItem mnemonicParsing="false" text="8" />
+                              <MenuItem mnemonicParsing="false" text="10" />
+                              <MenuItem mnemonicParsing="false" text="12" />
+                           </items>
+                        </MenuButton>
+                     </children>
+                  </HBox>
+               </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </VBox>
+         </center>
+         <bottom>
+            <Button fx:id="goBackButton" alignment="CENTER" mnemonicParsing="false" onAction="#goBackHandle" stylesheets="@../css/button.css" text="Go back" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="40.0" />
+               </BorderPane.margin>
+            </Button>
+         </bottom>
+      </BorderPane>
+   </children>
+</StackPane>

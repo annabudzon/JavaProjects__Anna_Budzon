@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.91" prefHeight="540.0" prefWidth="960.0" style="-fx-background-image: url(&quot;images/menu.jpg&quot;);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RulesScreenController">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <top>
+            <Label text="RULES" textFill="WHITE" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="Arial Black" size="36.0" />
+               </font>
+               <BorderPane.margin>
+                  <Insets top="10.0" />
+               </BorderPane.margin>
+            </Label>
+         </top>
+         <center>
+            <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="750.0" spacing="20.0" style="-fx-background-color: rgba(100, 100, 150, 0.3); -fx-background-radius: 20;" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </VBox>
+         </center>
+         <bottom>
+            <Button fx:id="goBackButton" alignment="CENTER" mnemonicParsing="false" onAction="#goBackHandle" stylesheets="@../css/button.css" text="Go back" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="10.0" />
+               </BorderPane.margin>
+            </Button>
+         </bottom>
+      </BorderPane>
+      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Możliwy jest wybór tryb gry: multiplayer (użytkownik-użytkownik) lub single player (komputer-użytkownik).&#10; Komputer lub drugi gracz losuje ciąg kolorów, czyli kod, który ma odgadnąć użytkownik.&#10; Powtórzenia są dozwolone, więc gracz może również wybrać cztery pionki w tym samym kolorze. &#10;Kod zostaje wygenerowany przez komputer &#10;lub wybrany przez gracza, więc kombinacje nie są widoczne dla odgadującego.&#10; Użytkownik stara się odgadnąć kod, zarówno kolory jak i ich kolejność, w dziesięciu próbach.&#10; Próba polega na umieszczeniu rzędu większych pionków &#10;na planszy, po czym zostaje oceniona przez komputer, &#10;poprzez ulokowanie od zera do czterech mniejszych pionków (czarnych lub białych)&#10; do udzielania informacji w tym samym rzędzie co domniemany kod.&#10; Każdy czarny pionek oznacza, że jeden z większych pionków o danym kolorze &#10;został umieszczony w domniemanym kodzie na właściwym miejscu.&#10; Każdy biały pionek wskazuje na istnienie większego pionka o właściwym kolorze, lecz na niewłaściwym miejscu.&#10; Po ocenieniu próby odgadujący podejmuje kolejną.&#10; Gra kończy się po poprawnym wskazaniu kodu przez odgadującego &#10;lub po dziesięciu nieudanych próbach. Możliwa jest komunikacja pomiędzy użytkownikami, w formie chatu.&#10;" textAlignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font></Text>
+   </children>
+</StackPane>

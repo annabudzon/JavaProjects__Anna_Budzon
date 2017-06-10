@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" style="-fx-background-image: url(&quot;images/menu.jpg&quot;);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SetCombinationController">
+   <children>
+      <VBox fx:id="vBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="380.0" style="-fx-background-color: rgba(100, 100, 150, 0.3); -fx-background-radius: 20;">
+         <children>
+            <Label alignment="CENTER" text="Choose colors, which your &#10;competitor will have to guess." textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+               <children>
+                  <Button fx:id="circleButton1" mnemonicParsing="false" onAction="#buttonsClicked" styleClass="btn" stylesheets="@../css/circle.css" />
+                  <Button fx:id="circleButton2" mnemonicParsing="false" onAction="#buttonsClicked" styleClass="btn" stylesheets="@../css/circle.css" />
+                  <Button fx:id="circleButton3" mnemonicParsing="false" onAction="#buttonsClicked" styleClass="btn" stylesheets="@../css/circle.css" />
+                  <Button fx:id="circleButton4" mnemonicParsing="false" onAction="#buttonsClicked" styleClass="btn" stylesheets="@../css/circle.css" />
+               </children>
+            </HBox>
+            <Button fx:id="continueButton" mnemonicParsing="false" onAction="#handleContinue" stylesheets="@../css/button.css" text="Continue">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

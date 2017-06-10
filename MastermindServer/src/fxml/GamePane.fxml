@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.canvas.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GamePanelController">
+   <children>
+      <HBox fx:id="hBox" alignment="TOP_CENTER">
+         <children>
+            <VBox fx:id="guessPane" prefHeight="480.0" prefWidth="305.0" style="-fx-background-image: url(&quot;images/hbox1.png&quot;);" />
+            <Separator orientation="VERTICAL" prefHeight="200.0" styleClass="..\css\button.css" />
+            <VBox fx:id="resultPane" prefHeight="480.0" prefWidth="160.0" style="-fx-background-image: url(&quot;images/hbox2.png&quot;);" />
+         </children>
+      </HBox>
+   </children>
+            
+</AnchorPane>

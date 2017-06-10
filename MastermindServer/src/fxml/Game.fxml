@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="anchor" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameController">
+    <children>
+      <VBox alignment="TOP_CENTER">
+         <children>
+           <fx:include fx:id="gamePanelControl" source="GamePane.fxml" />
+              <ToolBar minWidth="-Infinity" prefWidth="469.0" stylesheets="@../css/design.css" VBox.vgrow="ALWAYS">
+                  <items>
+                      <Button fx:id="circleButton1" contentDisplay="CENTER" mnemonicParsing="false" onAction="#circleClicked" styleClass="btn" stylesheets="@../css/circle.css" />
+                      <Region />
+                      <Button fx:id="circleButton2" contentDisplay="CENTER" layoutX="10.0" layoutY="8.0" mnemonicParsing="false" onAction="#circleClicked" styleClass="btn" stylesheets="@../css/circle.css" />
+                      <Region />
+                      <Button fx:id="circleButton3" contentDisplay="CENTER" mnemonicParsing="false" onAction="#circleClicked" styleClass="btn" stylesheets="@../css/circle.css" />
+                      <Region />
+                      <Button fx:id="circleButton4" contentDisplay="CENTER" layoutX="336.0" layoutY="15.0" mnemonicParsing="false" onAction="#circleClicked" styleClass="btn" stylesheets="@../css/circle.css" />
+                      <Region prefWidth="215.0" />
+                      <Button fx:id="answerButton" contentDisplay="CENTER" layoutX="186.0" layoutY="8.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#answerHandle" prefWidth="90.0" styleClass="btn" text="Give a hint" />
+                  </items>
+              </ToolBar>
+         </children>
+      </VBox>
+    </children> 
+</AnchorPane>

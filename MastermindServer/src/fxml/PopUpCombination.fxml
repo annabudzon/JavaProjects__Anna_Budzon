@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="350.0" style="-fx-background-color: rgba(0, 150, 100, 0.3); -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PopUpCombController">
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <Circle fx:id="yellowCircle" fill="#f1ff1f" onMouseClicked="#colorClicked" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fx:id="orangeCircle" fill="#ffb221" onMouseClicked="#colorClicked" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fx:id="redCircle" fill="#ff2121" onMouseClicked="#colorClicked" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fx:id="violetCircle" fill="#a467b2" onMouseClicked="#colorClicked" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fx:id="blueCircle" fill="#59ccdd" onMouseClicked="#colorClicked" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fx:id="greenCircle" fill="#33bc3c" onMouseClicked="#colorClicked" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+            <Region prefHeight="200.0" prefWidth="200.0" />
+            <Circle fx:id="exitCircle" fill="#0d0d0d" onMouseClicked="#exitClicked" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
+         </children>
+         <StackPane.margin>
+            <Insets left="10.0" />
+         </StackPane.margin>
+      </HBox>
+   </children>
+   <padding>
+      <Insets right="5.0" />
+   </padding>
+</StackPane>
+
