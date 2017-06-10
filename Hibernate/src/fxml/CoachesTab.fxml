@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.collections.*?>
+
+<TableView fx:id="coachesTable" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CoachesTabController">
+    <columns>
+        <TableColumn fx:id="idColumn" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="50.0" text="ID" />
+        <TableColumn fx:id="firstNameColumn" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="200.0" text="First name" />
+        <TableColumn fx:id="lastNameColumn" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="200.0" text="Last name" />  
+        <TableColumn fx:id="trainingsColumn" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="550.0" text="Trainings" />
+    </columns>
+</TableView>

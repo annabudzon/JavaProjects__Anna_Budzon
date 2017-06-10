@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.collections.*?>
+
+<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#handleEscPressed" onKeyReleased="#handleEscReleased" prefHeight="500.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainScreenController">
+    <top>
+        <MenuBar fx:id="menuBar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+            <menus>
+                <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem fx:id="logoutMenuItem" mnemonicParsing="false" onAction="#handleLogOut" text="Log out" />
+                        <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#handleClose" text="Close   ESC" />
+                    </items>
+                </Menu>
+                <Menu fx:id="menuAmout" mnemonicParsing="false" text="About">
+                    <items>
+                        <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" onAction="#handleAbout" text="About me" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+   <center>
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="TOP_LEFT">
+         <children>
+              <TabPane fx:id="tabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE">
+                  <tabs>
+                      <Tab fx:id="clientsTab" closable="false" text="Clients">
+                          <content>
+                              <VBox fx:id="vBox1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                                  <children>
+                                      <fx:include fx:id="clientsTabControl" source="ClientsTab.fxml" />                           
+                                      <HBox spacing="10.0">
+                                          <children>
+                                              <TextField fx:id="clientIdInput" disable="true" editable="false" prefWidth="60.0" promptText="ID" />
+                                              <TextField fx:id="clientFirstNameInput" layoutX="10.0" layoutY="10.0" prefWidth="180.0" promptText="First name" />
+                                              <TextField fx:id="clientLastNameInput" layoutX="159.0" layoutY="10.0" prefWidth="180.0" promptText="Last name" />
+                                              <TextField fx:id="clientResidenceInput" layoutX="159.0" layoutY="10.0" prefWidth="220.0" promptText="Residence" />
+                                              <TextField fx:id="clientAgeInput" layoutX="159.0" layoutY="10.0" prefWidth="60.0" promptText="Age" />
+                                              <Region HBox.hgrow="ALWAYS" />
+                                              <Button fx:id="addClientButton" defaultButton="true" mnemonicParsing="false" onAction="#handleAddClientButton" text="Add" />
+                                              <Button fx:id="deleteClientButton" mnemonicParsing="false" onAction="#handleDeleteClientButton" text="Delete" />
+                                          </children>
+                                          <VBox.margin>
+                                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                                          </VBox.margin>
+                                      </HBox>
+                                  </children>
+                              </VBox>
+                          </content>
+                      </Tab>
+                      <Tab fx:id="coachesTab" text="Coaches">
+                          <content>
+                              <VBox fx:id="vBox2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                                  <children>
+                                      <fx:include fx:id="coachesTabControl" source="CoachesTab.fxml" />                           
+                                      <HBox spacing="10.0">
+                                          <children>
+                                              <TextField fx:id="coachIdInput" disable="true" editable="false" prefWidth="100.0" promptText="ID" />
+                                              <TextField fx:id="coachFirstNameInput" layoutX="10.0" layoutY="10.0" prefWidth="250.0" promptText="First name" />
+                                              <TextField fx:id="coachLastNameInput" layoutX="159.0" layoutY="10.0" prefWidth="250.0" promptText="Last name" />
+                                              <Region HBox.hgrow="ALWAYS" />
+                                              <Button fx:id="addCoachButton" defaultButton="true" mnemonicParsing="false" onAction="#handleAddCoachButton" text="Add" />
+                                              <Button fx:id="deleteCoachButton" mnemonicParsing="false" onAction="#handleDeleteCoachButton" text="Delete" />
+                                          </children>
+                                          <VBox.margin>
+                                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                                          </VBox.margin>
+                                      </HBox>
+                                  </children>
+                              </VBox>
+                          </content>
+                      </Tab>
+                      <Tab fx:id="practicesTab" text="Trainings">
+                          <content>
+                              <VBox fx:id="vBox3" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                                  <children>
+                                      <fx:include fx:id="trainingTabControl" source="TrainingTab.fxml" />                          
+                                      <HBox spacing="10.0">
+                                          <children>
+                                              <TextField fx:id="trainingIdInput" disable="true" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="60.0" promptText="ID" />
+                                    <DatePicker fx:id="datePicker" />
+                                              <TextField fx:id="timeInput" layoutX="159.0" layoutY="10.0" prefWidth="120.0" promptText="hh:mm:ss" />
+                                    <ChoiceBox fx:id="coachChoice" prefWidth="150.0" />
+                                    <ChoiceBox fx:id="placeChoice" prefWidth="150.0" />
+                                    <ChoiceBox fx:id="kindChoice" prefWidth="150.0" />
+                                              <Region HBox.hgrow="ALWAYS" />
+                                              <Button fx:id="addTrainingButton" defaultButton="true" mnemonicParsing="false" onAction="#handleAddTrainingButton" text="Add">
+                                       <HBox.margin>
+                                          <Insets right="8.0" />
+                                       </HBox.margin></Button>
+                                              <Button fx:id="deleteTrainingButton" mnemonicParsing="false" onAction="#handleDeleteTrainingButton" text="Delete" />
+                                          </children>
+                                          <VBox.margin>
+                                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                                          </VBox.margin>
+                                      </HBox>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <ChoiceBox fx:id="clientChoice" prefWidth="150.0" />
+                                    <ChoiceBox fx:id="trainingChoice" prefWidth="150.0" />
+                                    <Region prefWidth="550.0" />
+                                    <Button fx:id="addParticipant" mnemonicParsing="false" onAction="#addParticipantHandle" text="Dodaj uczestnika" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                                 </VBox.margin>
+                              </HBox>
+                                  </children>
+                              </VBox>
+                              
+                          </content>
+                      </Tab>
+                  </tabs>
+              </TabPane>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
