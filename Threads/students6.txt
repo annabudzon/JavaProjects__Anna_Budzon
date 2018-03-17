@@ -1,9 +1,0 @@
-﻿
-5.0;Andrzej;Duda;21
-3.0;Donald;Trump;25
-3.5;Olaf;Kwasniewski;27
-3.0;Barbara;Bar;21
-
-
-
-

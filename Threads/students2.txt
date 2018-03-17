@@ -1,7 +1,0 @@
-
-3.0;Jan;Kowalski;21
-4.5;Anna;Nowak;20
-3.5;Mateusz;Komorowski;21
-5.0;Marcin;Nowakowski;22
-3.5;Elzbieta;Mazur;22
-4.5;Hubert;Grzyb;22
